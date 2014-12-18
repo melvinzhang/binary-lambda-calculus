@@ -2,5 +2,5 @@ T = (\f \t t)
 F = (\f \t f)
 C = (\a \b \z z a b)
 Y = (\f ((\x x x) (\x f (x x))))
-R = (\x \c \d \e d x (C c e))
+R = (\m \p \q \n q m (C p n))
 \s s (Y R) T
