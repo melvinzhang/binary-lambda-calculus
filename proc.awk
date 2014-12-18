@@ -2,21 +2,27 @@ BEGIN {
     FS = " = "
 }
 
+function proc(str, v) {
+    split(str, tok, "")
+    len = length(tok)
+    res = ""
+    for (i = 1; i <= len; i++) {
+        c = tok[i]
+        if (c in v) {
+            res = res v[c]
+        } else {
+            res = res tok[i]
+        }
+    }
+    return res;
+}
+
 /=/ {
-    v[$1] = $2
-    #print $1 "-" $2
-    next 
+    str = proc($2, v)
+    v[$1] = str
+    next
 }
 
 {
-    split($0, line, "")
-    len = length(line)
-    for (i = 1; i <= len; i++) {
-        c = line [i]
-        if (c in v) {
-            printf("%s", v[c])
-        } else {
-            printf("%c", c)
-        }
-    }
+    printf("%s\n", proc($0, v));
 }
