@@ -14,8 +14,9 @@ uni: uni.c
 	cat $^ | ./uni | head -1 > $@
 
 %.b: %.blc
-	cat $^ | ./uni -b | head -c 10
+	cat $^ binary | ./uni -b | head -c 10
+	@echo
 
 %.B: %.Blc
-	cat $^ text | ./uni
+	cat $^ bytes | ./uni
 	@echo
