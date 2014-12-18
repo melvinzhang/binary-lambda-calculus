@@ -1,0 +1,4 @@
+T = (\f \t t)
+F = (\f \t f)
+E = (\x \c c T (\d d F (x x)))
+\a (E E)
