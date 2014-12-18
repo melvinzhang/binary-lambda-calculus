@@ -1,14 +1,17 @@
 uni: uni.c
 	gcc -DM=1000000 $^ -o $@
 
-%.lam: proc.awk %.lamp
+%.lc: proc.awk %.lam
 	awk -f $^ > $@
 
-%.blc: parse.Blc %.lam
+%.blc: parse.Blc %.lc
 	cat $^ | ./uni > $@
 
 %.Blc: deflate.Blc %.blc
 	cat $^ | ./uni > $@
 
-%.lam: symbolic.Blc %.blc
+%.lc: symbolic.Blc %.blc
 	cat $^ | ./uni | head -1 > $@
+
+%.out: %.blc
+	cat $^ | ./uni -b | head -c 10
