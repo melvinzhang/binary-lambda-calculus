@@ -13,5 +13,9 @@ uni: uni.c
 %.lc: symbolic.Blc %.blc
 	cat $^ | ./uni | head -1 > $@
 
-%.out: %.blc
+%.b: %.blc
 	cat $^ | ./uni -b | head -c 10
+
+%.B: %.Blc
+	cat $^ text | ./uni
+	@echo
