@@ -1,2 +1,4 @@
 T = (\f \t t)
-\a a ((\b b b) (\b \c \d \e d (b b) (\f f c e))) T
+Y = (\f ((\x x x) (\x f (x x))))
+E = (\x \c \d \e d x (\f f c e))
+\a a (Y E) T
