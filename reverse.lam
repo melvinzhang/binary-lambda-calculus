@@ -1,4 +1,4 @@
 T = (\f \t t)
 Y = (\f ((\x x x) (\x f (x x))))
-E = (\x \c \d \e d x (\f f c e))
-\a a (Y E) T
+R = (\x \c \d \e d x (\f f c e))
+\a a (Y R) T
