@@ -1,4 +1,6 @@
 T = (\f \t t)
 F = (\f \t f)
-E = (\x \c c T (\d d F (x x)))
-\a (E E)
+C = (\a \b \z z a b)
+Y = (\f ((\x x x) (\x f (x x))))
+E = (\x (C T (C F x)))
+\a (Y E)
