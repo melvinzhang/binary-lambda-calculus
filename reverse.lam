@@ -1,4 +1,5 @@
 T = (\f \t t)
+C = (\a \b \z z a b)
 Y = (\f ((\x x x) (\x f (x x))))
 R = (\x \c \d \e d x (\f f c e))
-\a a (Y R) T
+(C (Y R) T)
