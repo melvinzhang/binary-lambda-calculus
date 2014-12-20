@@ -4,13 +4,13 @@ uni: uni.c
 %.lc: proc.awk %.lam
 	awk -f $^ > $@
 
+%.inf.blc: inflate.Blc %.Blc
+	cat $^ | ./uni > $@
+
 %.blc: parse.Blc %.lc
 	cat $^ | ./uni > $@
 
 %.Blc: deflate.Blc %.blc
-	cat $^ | ./uni > $@
-
-%.inf.blc: inflate.Blc %.Blc
 	cat $^ | ./uni > $@
 
 %.lc: symbolic.Blc %.blc
