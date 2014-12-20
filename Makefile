@@ -10,6 +10,9 @@ uni: uni.c
 %.Blc: deflate.Blc %.blc
 	cat $^ | ./uni > $@
 
+%.inf.blc: inflate.Blc %.Blc
+	cat $^ | ./uni > $@
+
 %.lc: symbolic.Blc %.blc
 	cat $^ | ./uni | head -1 > $@
 
