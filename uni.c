@@ -46,15 +46,18 @@ void x(int l,int u) {
     for(; l<=u; T[n++]=T[l++]);
 }
 
+//gets one bit of input, setting i to -1 on EOF or to remaining number of bits in current byte
 int g() {
     i--||(i=b,c=getchar());
     return c>>i&1;
 }
 
+//decrease reference counter, add record to free list on reaching zero
 void d(C *l) {
     !l||--l->r||(d(l->e),d(l->n),l->n=f,f=l);
 }
 
+//parses blc-encoded lambda term using g(), stores results in term space and returns length
 int p(int m) {
     if (g()) {
         for(T[n++]=V; g(); T[n]++);
