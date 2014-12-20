@@ -1,6 +1,11 @@
 uni: uni.c
 	gcc -DM=1000000 $^ -o $@
 
+# lam -> lc -> blc -> Blc
+
+%.sym.lc: symbolic.Blc %.blc
+	cat $^ | ./uni | head -1 > $@
+
 %.lc: proc.awk %.lam
 	awk -f $^ > $@
 
@@ -12,9 +17,6 @@ uni: uni.c
 
 %.Blc: deflate.Blc %.blc
 	cat $^ | ./uni > $@
-
-%.lc: symbolic.Blc %.blc
-	cat $^ | ./uni | head -1 > $@
 
 %.b: %.blc
 	cat $^ binary | ./uni -b | head -c 10
@@ -35,3 +37,11 @@ primes.bin: primes.blc
 
 hw_in_bf: bf.Blc hw.bf
 	cat $^ | ./uni
+
+test_uni: uni1.blc primes.blc
+	@cat primes.blc | ./uni -b | head -c 70
+	@echo
+	@cat uni1.blc primes.blc | ./uni -b | head -c 70
+	@echo
+	@cat uni1.blc uni1.blc primes.blc | ./uni -b | head -c 70
+	@echo
