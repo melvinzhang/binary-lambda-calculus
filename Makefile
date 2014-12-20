@@ -38,7 +38,7 @@ primes.bin: primes.blc
 hw_in_bf: bf.Blc hw.bf
 	cat $^ | ./uni
 
-test_uni: uni1.blc primes.blc
+test_uni: uni1.blc primes.blc uni
 	@cat primes.blc | ./uni -b | head -c 70
 	@echo
 	@cat uni1.blc primes.blc | ./uni -b | head -c 70
