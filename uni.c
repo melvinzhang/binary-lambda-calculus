@@ -1,10 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-enum {I,O,V,A,L};
+
+enum {
+    // input
+    I,
+    // output
+    O,
+    // denotes a variable, with next entry its de Bruijn index
+    V,
+    // denotes application with next entry the size of the term being applied
+    A,
+    // denotes lambda abstraction
+    L
+};
+
 int n=44;
 int i;
 int c;
+
+// Lambda term space
 int T[M]= {
                L,A,8,A,2,  V,0,L,L,V,
 A,30,L,A,2,V,0,L,A,5,A,7,L,V,0,O,
@@ -13,9 +28,16 @@ A,14,L,A,2,V,0,L,A,5,A,2,  V,0,O,O,A
 int b;
 int s;
 
+//closure
 typedef struct _ {
-    int t,r;
-    struct _*e,*n;
+    // lambda term (index in term space)
+    int t;
+    // reference count
+    int r;
+    // pointer to environment
+    struct _ *e;
+    // pointer to the next closure (as part of an environment), or next record on free list
+    struct _ *n;
 } C;
 
 C *e, *f, *l, *S[M];
