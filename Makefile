@@ -23,3 +23,6 @@ uni: uni.c
 
 hilbert:
 	(cat hilbert.Blc; echo -n 1024) | ./uni
+
+hw_in_bf:
+	cat bf.Blc hw.bf | ./uni
