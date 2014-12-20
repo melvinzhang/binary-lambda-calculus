@@ -27,5 +27,11 @@ uni: uni.c
 hilbert:
 	(cat hilbert.Blc; echo -n 1024) | ./uni
 
-hw_in_bf:
-	cat bf.Blc hw.bf | ./uni
+primes.dec:
+	(cat oddindices.Blc; echo -n " "; cat primes.blc | ./uni -b) | ./uni | head -c 70
+
+primes.bin: primes.blc
+	cat $^ | ./uni -b | head -c 70
+
+hw_in_bf: bf.Blc hw.bf
+	cat $^ | ./uni
