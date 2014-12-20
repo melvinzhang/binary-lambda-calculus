@@ -20,3 +20,6 @@ uni: uni.c
 %.B: %.Blc
 	cat $^ bytes | ./uni
 	@echo
+
+hilbert:
+	(cat hilbert.Blc; echo -n 1024) | ./uni
