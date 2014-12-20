@@ -29,7 +29,7 @@ int g() {
     return c>>i&1;
 }
 
-void d(C*l) {
+void d(C *l) {
     !l||--l->r||(d(l->e),d(l->n),l->n=f,f=l);
 }
 
