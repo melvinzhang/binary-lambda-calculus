@@ -52,8 +52,6 @@ C *e;
 //free list
 C *freel;
 
-C *l;
-
 C *S[M];
 
 //copy T[l..u] to end of T
@@ -110,16 +108,19 @@ int main(int t) {
                 (o=2*o|t&1,28):
                 (putchar(b?o:t+8),fflush(stdout),b?12:28);
             break;
-        case V:
+        case V: {
             debug("V");
+            C *l;
             l=e;
             for(t=T[t+1]; t--; e=e->n);
             t=e->t;
             (e=e->e)&&e->r++;
             d(l);
             break;
-        case A:
+        }
+        case A: {
             debug("A");
+            C *l;
             t+=2;
             freel||(freel=calloc(1,sizeof(C)));
             assert(freel&&s<M);
@@ -129,6 +130,7 @@ int main(int t) {
             l->t=t+T[t-1];
             (l->e=e)&&e->r++;
             break;
+        }
         case L:
             debug("L");
             if(!s--)return 0;

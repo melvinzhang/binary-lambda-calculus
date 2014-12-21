@@ -1,4 +1,7 @@
 uni: uni.c
+	gcc -DM=1000000 -DNDEBUG $^ -o $@
+
+unid: uni.c
 	gcc -DM=1000000 $^ -o $@
 
 # lam -> lc -> blc -> Blc
