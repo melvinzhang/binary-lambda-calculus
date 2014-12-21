@@ -2,6 +2,12 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#ifdef NDEBUG
+#define debug(M, ...)
+#else
+#define debug(M, ...) fprintf(stderr, M, ##__VA_ARGS__)
+#endif
+
 enum {
     // input
     I,
@@ -40,8 +46,17 @@ typedef struct _ {
     struct _ *n;
 } C;
 
-C *e, *f, *l, *S[M];
+//current environment
+C *e;
 
+//free list
+C *freel;
+
+C *l;
+
+C *S[M];
+
+//copy T[l..u] to end of T
 void x(int l,int u) {
     for(; l<=u; T[n++]=T[l++]);
 }
@@ -54,7 +69,7 @@ int g() {
 
 //decrease reference counter, add record to free list on reaching zero
 void d(C *l) {
-    !l||--l->r||(d(l->e),d(l->n),l->n=f,f=l);
+    !l||--l->r||(d(l->e),d(l->n),l->n=freel,freel=l);
 }
 
 //parses blc-encoded lambda term using g(), stores results in term space and returns length
@@ -74,8 +89,10 @@ int main(int t) {
     T[43]=p(n);
     i=0;
     for(t=b?10:26;;) { 
+        debug("t:%d, s:%d, i:%d, T[t]:", t, s, i);
         switch(T[t]) {
         case I:
+            debug("I");
             g();
             i++;
             assert(n<M-99);
@@ -88,11 +105,13 @@ int main(int t) {
             T[n++]=!b&&!g();
             break;
         case O:
+            debug("O");
             t=b+t>42?
                 (o=2*o|t&1,28):
                 (putchar(b?o:t+8),fflush(stdout),b?12:28);
             break;
         case V:
+            debug("V");
             l=e;
             for(t=T[t+1]; t--; e=e->n);
             t=e->t;
@@ -100,22 +119,25 @@ int main(int t) {
             d(l);
             break;
         case A:
+            debug("A");
             t+=2;
-            f||(f=calloc(1,sizeof(C)));
-            assert(f&&s<M);
-            S[s++]=l=f;
-            f=l->n;
+            freel||(freel=calloc(1,sizeof(C)));
+            assert(freel&&s<M);
+            S[s++]=l=freel;
+            freel=l->n;
             l->r=1;
             l->t=t+T[t-1];
             (l->e=e)&&e->r++;
             break;
         case L:
+            debug("L");
             if(!s--)return 0;
             S[s]->n=e;
             e=S[s];
             t++;
             break;
         }
+        debug("\n");
     }
     return T[t+2];
 }
