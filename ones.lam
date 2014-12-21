@@ -1,0 +1,4 @@
+F = (\t\f f)
+U = (\x x x)
+A = (\x (\p p F (x x)))
+\a (U A)
