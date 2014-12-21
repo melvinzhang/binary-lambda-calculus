@@ -95,10 +95,14 @@ int p(int m) {
     return n-m;
 }
 
-int main(int t) {
+int main(int argc, char **argv) {
+    int t = argc;
     char o;
     b=t>1?0:7;
     T[43]=p(n);
+    for (int j = 43; j < n; j++) {
+        debug("T[%d]: %d\n", j, T[j]);
+    }
     i=0;
     // index into T
     t=b?10:26;
