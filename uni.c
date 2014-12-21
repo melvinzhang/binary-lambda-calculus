@@ -21,9 +21,14 @@ enum {
     L
 };
 
-int n=44;
+//bits left in current byte
 int i;
+
+//current input char
 int c;
+
+// b=0 for bits mode and 7 for bytes mode
+int b;
 
 // Lambda term space
 int T[M]= {
@@ -31,8 +36,8 @@ int T[M]= {
 A,30,L,A,2,V,0,L,A,5,A,7,L,V,0,O,
 A,14,L,A,2,V,0,L,A,5,A,2,  V,0,O,O,A
 };
-int b;
-int s;
+// end of T
+int n=44;
 
 //closure
 typedef struct _ {
@@ -52,7 +57,11 @@ C *e;
 //free list
 C *freel;
 
+// stack of closures
 C *S[M];
+
+// s is index to top of S
+int s;
 
 //copy T[l..u] to end of T
 void x(int l,int u) {
@@ -86,7 +95,9 @@ int main(int t) {
     b=t>1?0:7;
     T[43]=p(n);
     i=0;
-    for(t=b?10:26;;) { 
+    // index into T
+    t=b?10:26;
+    while(1) { 
         debug("t:%d, s:%d, i:%d, T[t]:", t, s, i);
         switch(T[t]) {
         case I:
