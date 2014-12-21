@@ -1,0 +1,6 @@
+Y = (\f ((\x x x) (\x f (x x))))
+M = (e (\x b (c (\z \y x (\p p y z))) (e (\y c (\z x z (y z))))))
+N = (b (c (\z z b))(\s e (\x c (\z x (z b))) t))
+E = (\e \c \s s (\a \t t (\b a M N)))
+O = ((\x x x)(\x x x))
+(\x x x)(\x E (x x))(\z z O)
