@@ -148,7 +148,9 @@ int main(int argc, char **argv) {
         case A: {
             debug("A");
             t+=2;
-            freel||(freel=calloc(1,sizeof(C)));
+            if (!freel) {
+                freel=calloc(1,sizeof(C));
+            }
             assert(freel&&s<M);
             C *l=freel;
             freel=l->n;
