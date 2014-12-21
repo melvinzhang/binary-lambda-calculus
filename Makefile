@@ -13,7 +13,7 @@ unid: uni.c
 	awk -f $^ > $@
 
 %.inf.blc: inflate.Blc %.Blc
-	cat $^ | ./uni > $@
+	cat $+ | ./uni > $@
 
 %.blc: parse.Blc %.lc
 	cat $^ | ./uni > $@
