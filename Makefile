@@ -1,8 +1,8 @@
 uni: uni.c
-	gcc -DM=1000000 -DNDEBUG $^ -o $@
+	gcc -std=c99 -DM=1000000 -DNDEBUG $^ -o $@
 
 unid: uni.c
-	gcc -DM=1000000 $^ -o $@
+	gcc -std=c99 -Wall -DM=1000000 $^ -o $@
 
 # lam -> lc -> blc -> Blc
 
