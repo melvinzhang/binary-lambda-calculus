@@ -70,7 +70,12 @@ void x(int l,int u) {
 
 //gets one bit of input, setting i to -1 on EOF or to remaining number of bits in current byte
 int g() {
-    i--||(i=b,c=getchar());
+    if (i == 0) {
+        i=b;
+        c=getchar();
+    } else {
+        i--;
+    }
     return c>>i&1;
 }
 
