@@ -81,7 +81,15 @@ int g() {
 
 //decrease reference counter, add record to free list on reaching zero
 void d(C *l) {
-    !l||--l->r||(d(l->e),d(l->n),l->n=freel,freel=l);
+    if (l) {
+        --l->r;
+        if (l->r == 0) {
+            d(l->e);
+            d(l->n);
+            l->n=freel;
+            freel=l;
+        }
+    }
 }
 
 //parses blc-encoded lambda term using g(), stores results in term space and returns length
