@@ -1,4 +1,5 @@
 O = ((\x x x)(\x x x))
 Y = (\f ((\x x x) (\x f (x x))))
-E = (\b \c \d d (\e \f \g \h \i f (\j \k \l e (h (\m j (i (\n \o m (\p p o n))) (h (\n i (\o m o (n o))))) k) (j (i (\m m j) k) (h (\m i (\n m (n j))) f))) (\j j (\k h i (\l l e k)))) (\e \f \g g (e f)) (b b) c)
+M = (\p \q \g \e \c q (\j \k \l p (e (\m j (c (\n \o m (\p p o n))) (e (\n c (\o m o (n o))))) k) (j (c (\m m j) k) (e (\m c (\n m (n j))) q))) (\j j (\k e c (\l l p k))))
+E = (\e \c \s s M (\e \f \g g (e f)) (e e) c)
 \a a ((\b b b) E (\b \c b O))
