@@ -110,8 +110,7 @@ int main(int t) {
             break;
         case V: {
             debug("V");
-            C *l;
-            l=e;
+            C *l=e;
             for(t=T[t+1]; t--; e=e->n);
             t=e->t;
             (e=e->e)&&e->r++;
@@ -120,15 +119,15 @@ int main(int t) {
         }
         case A: {
             debug("A");
-            C *l;
             t+=2;
             freel||(freel=calloc(1,sizeof(C)));
             assert(freel&&s<M);
-            S[s++]=l=freel;
+            C *l=freel;
             freel=l->n;
             l->r=1;
             l->t=t+T[t-1];
             (l->e=e)&&e->r++;
+            S[s++]=l;
             break;
         }
         case L:
