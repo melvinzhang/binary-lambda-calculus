@@ -141,7 +141,10 @@ int main(int argc, char **argv) {
             C *l=e;
             for(t=T[t+1]; t--; e=e->n);
             t=e->t;
-            (e=e->e)&&e->r++;
+            e=e->e;
+            if (e) {
+                e->r++;
+            }
             d(l);
             break;
         }
@@ -156,7 +159,10 @@ int main(int argc, char **argv) {
             freel=l->n;
             l->r=1;
             l->t=t+T[t-1];
-            (l->e=e)&&e->r++;
+            l->e=e;
+            if (e) {
+                e->r++;
+            }
             S[s++]=l;
             break;
         }
