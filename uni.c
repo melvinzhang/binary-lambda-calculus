@@ -67,6 +67,7 @@ int s;
 
 //copy T[l..u] to end of T
 void x(int l,int u) {
+    debug("\nX %d %d", l, u);
     for(; l<=u; T[n++]=T[l++]);
 }
 
@@ -133,12 +134,20 @@ int main(int argc, char **argv) {
             g();
             i++;
             assert(n<M-99);
-            if(~c&&b) {
+            //not EOF and in byte mode, setup one byte
+            if (~c&&b) {
                 x(0,6);
                 for(T[n-5]=96; i; T[n++]=!g())
                     x(0,9);
             }
-            x(c<0?7:b,9);
+            //EOF reached
+            if (c < 0) {
+                x(7, 9);
+            //in binary mode, setup one bit
+            //in byte mode, terminate byte list
+            } else {
+                x(b, 9);
+            }
             T[n++]=!b&&!g();
             break;
         case O:
@@ -149,6 +158,7 @@ int main(int argc, char **argv) {
             break;
         case V: {
             debug("V");
+            debug(" %d", T[t+1]);
             C *l=e;
             for(t=T[t+1]; t--; e=e->n);
             t=e->t;
@@ -161,6 +171,7 @@ int main(int argc, char **argv) {
         }
         case A: {
             debug("A");
+            debug(" %d", T[t+1]);
             t+=2;
             if (!freel) {
                 freel=calloc(1,sizeof(C));
