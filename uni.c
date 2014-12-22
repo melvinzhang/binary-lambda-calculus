@@ -136,7 +136,7 @@ int main(int argc, char **argv) {
     // index into T
     t=b?10:26;
     while(1) { 
-        debug("t:%d, s:%d, i:%d, T[t]:", t, s, i);
+        debug("t:%d, s:%p, e:%p, T[t]:", t, s, e);
         switch(T[t]) {
         case I:
             debug("I");
@@ -207,7 +207,7 @@ int main(int argc, char **argv) {
             if (!freel) {
                 freel=calloc(1,sizeof(C));
             }
-            assert(freel&&s<M);
+            assert(freel);
             C *l=freel;
             freel=l->n;
             l->r=1;
