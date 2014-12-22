@@ -167,6 +167,8 @@ int main(int argc, char **argv) {
             }
             break;
         case V: {
+            //resolve v to an environment e and continue execution
+            //with t = e->t and e = e->e
             debug("V");
             debug(" %d", T[t+1]);
             C *l=e;
