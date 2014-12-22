@@ -202,7 +202,7 @@ int main(int argc, char **argv) {
             break;
         }
         case L:
-            //pop closure from stack and make it head of e
+            //pop closure from stack and make it top level environment
             debug("L");
             if(!s--)return 0;
             S[s]->n=e;
