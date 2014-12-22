@@ -65,11 +65,8 @@ C *e;
 //free list
 C *freel;
 
-// stack of closures
-C *S[M];
-
-// s is index to top of S
-int s;
+//s points to closure on the top of the stack
+C* s;
 
 //copy T[l..u] to end of T
 void x(int l,int u) {
@@ -219,18 +216,23 @@ int main(int argc, char **argv) {
             if (e) {
                 e->r++;
             }
-            S[s++]=l;
+            l->n = s;
+            s = l;
             break;
         }
-        case L:
+        case L: {
             //pop closure from stack and make it top level environment
             debug("L");
-            if(!s--)return 0;
-            S[s]->n=e;
-            e=S[s];
+            if (!s) {
+                return 0;
+            }
+            C *l = s->n;
+            s->n = e;
+            e = s;
+            s = l;
             t++;
             break;
-        }
+        }}
         debug("\n");
     }
     return T[t+2];
