@@ -69,7 +69,7 @@ void x(int l,int u) {
 }
 
 //gets one bit of input, setting i to -1 on EOF or to remaining number of bits in current byte
-int g(int b) {
+int g(const int b) {
     if (i == 0) {
         i=b;
         c=getchar();
@@ -93,7 +93,7 @@ void d(C *l) {
 }
 
 //parses blc-encoded lambda term using g(), stores results in term space and returns length
-int p(int m, int b) {
+int p(const int m, const int b) {
     if (g(b)) {
         for(T[n++]=V; g(b); T[n]++);
         n++;
