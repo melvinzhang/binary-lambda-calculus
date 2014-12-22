@@ -161,6 +161,7 @@ int main(int argc, char **argv) {
                 t = 28;
             } else {
                 putchar(b?o:t+8);
+                debug("\nP %c", b?o:t+8);
                 fflush(stdout);
                 t = b?12:28;
             }
