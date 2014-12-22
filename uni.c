@@ -98,7 +98,16 @@ int p(int m) {
         for(T[n++]=V; g(); T[n]++);
         n++;
     } else {
-        T[m]=n++&&g()?(T[m+1]=p(++n),A):L,p(n);
+        //01 -> application
+        if (g()) {
+            T[n++] = A;
+            T[n++] = p(m+2);
+        //00 -> abstraction
+        } else {
+            T[n++] = L;
+        }
+        // decode the rest of the input
+        p(n);
     }
     return n-m;
 }
