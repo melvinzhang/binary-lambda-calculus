@@ -124,13 +124,21 @@ int p(const int m) {
     return n-m;
 }
 
-void show(C *h, char *s) {
+int showL(C *h, char *s) {
     debug("%s ", s);
     while (h) {
         debug("(t:%d, r:%d, e:%p, a:%p) ", h->t, h->r, h->e, h);
         h = h->n;
     }
     debug("\n");
+    return 1;
+}
+
+int showT() {
+    for (int j = 43; j < n; j++) {
+        debug("T[%d]: %d\n", j, T[j]);
+    }
+    return 1;
 }
 
 int main(int argc, char **argv) {
@@ -138,15 +146,14 @@ int main(int argc, char **argv) {
     char o;
     b=t>1?0:7;
     T[43]=p(n);
-    for (int j = 43; j < n; j++) {
-        debug("T[%d]: %d\n", j, T[j]);
-    }
+    assert(showT());
     i=0;
     // index into T
     t=b?10:26;
     while(1) {
-        show(s, "S");
-        show(e, "E");
+        //assert(showL(freel, "F"));
+        assert(showL(s, "S"));
+        assert(showL(e, "E"));
         debug("t:%d, T[t]:", t);
         switch(T[t]) {
         case I:
