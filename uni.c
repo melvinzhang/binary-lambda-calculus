@@ -21,6 +21,9 @@ enum {
     L
 };
 
+// b=0 for bit mode and 7 for byte mode
+int b;
+
 //bits left in current byte
 int i;
 
@@ -69,7 +72,7 @@ void x(int l,int u) {
 }
 
 //gets one bit of input, setting i to -1 on EOF or to remaining number of bits in current byte
-int g(const int b) {
+int g() {
     if (i == 0) {
         i=b;
         c=getchar();
@@ -93,21 +96,21 @@ void d(C *l) {
 }
 
 //parses blc-encoded lambda term using g(), stores results in term space and returns length
-int p(const int m, const int b) {
-    if (g(b)) {
-        for(T[n++]=V; g(b); T[n]++);
+int p(const int m) {
+    if (g()) {
+        for(T[n++]=V; g(); T[n]++);
         n++;
     } else {
         //01 -> application
-        if (g(b)) {
+        if (g()) {
             T[n++] = A;
-            T[n++] = p(m+2,b);
+            T[n++] = p(m+2);
         //00 -> abstraction
         } else {
             T[n++] = L;
         }
         // decode the rest of the input
-        p(n,b);
+        p(n);
     }
     return n-m;
 }
@@ -115,9 +118,8 @@ int p(const int m, const int b) {
 int main(int argc, char **argv) {
     int t = argc;
     char o;
-    // b=0 for bit mode and 7 for byte mode
-    const int b=t>1?0:7;
-    T[43]=p(n,b);
+    b=t>1?0:7;
+    T[43]=p(n);
     for (int j = 43; j < n; j++) {
         debug("T[%d]: %d\n", j, T[j]);
     }
@@ -129,13 +131,13 @@ int main(int argc, char **argv) {
         switch(T[t]) {
         case I:
             debug("I");
-            g(b);
+            g();
             i++;
             assert(n<M-99);
             //not EOF and in byte mode, setup one byte
             if (~c&&b) {
                 x(0,6);
-                for(T[n-5]=96; i; T[n++]=!g(b))
+                for(T[n-5]=96; i; T[n++]=!g())
                     x(0,9);
             }
             //EOF reached
@@ -146,7 +148,7 @@ int main(int argc, char **argv) {
             } else {
                 x(b, 9);
             }
-            T[n++]=!b&&!g(b);
+            T[n++]=!b&&!g();
             break;
         case O:
             debug("O");
