@@ -45,7 +45,7 @@ int T[M]= {
 // end of T
 int n=44;
 
-//continuation
+//closure
 typedef struct _ {
     // lambda term (index in term space)
     int t;
@@ -63,7 +63,7 @@ C *e;
 //free list
 C *freel;
 
-// stack of continuations
+// stack of closures
 C *S[M];
 
 // s is index to top of S
@@ -180,7 +180,7 @@ int main(int argc, char **argv) {
             break;
         }
         case A: {
-            //create a continuation and push it onto S
+            //create a closure and push it onto S
             // t = index of term that is the argument
             // e = current environment
             debug("A");
@@ -202,7 +202,7 @@ int main(int argc, char **argv) {
             break;
         }
         case L:
-            //pop continuation from stack and make it head of e
+            //pop closure from stack and make it head of e
             debug("L");
             if(!s--)return 0;
             S[s]->n=e;
