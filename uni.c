@@ -27,15 +27,12 @@ int i;
 //current input char
 int c;
 
-// b=0 for bits mode and 7 for bytes mode
-int b;
-
 // Lambda term space
 int T[M]= {
                L,A,8,A,2,  V,0,L,L,V,
 //10 - start here for byte mode
 A,30,L,A,2,V,0,L,A,5,A,7,L,V,0,O,
-//26 - start here for binary mode
+//26 - start here for bit mode
 A,14,L,A,2,V,0,L,A,5,A,2,  V,0,O,O,A
 };
 // end of T
@@ -72,7 +69,7 @@ void x(int l,int u) {
 }
 
 //gets one bit of input, setting i to -1 on EOF or to remaining number of bits in current byte
-int g() {
+int g(int b) {
     if (i == 0) {
         i=b;
         c=getchar();
@@ -96,21 +93,21 @@ void d(C *l) {
 }
 
 //parses blc-encoded lambda term using g(), stores results in term space and returns length
-int p(int m) {
-    if (g()) {
-        for(T[n++]=V; g(); T[n]++);
+int p(int m, int b) {
+    if (g(b)) {
+        for(T[n++]=V; g(b); T[n]++);
         n++;
     } else {
         //01 -> application
-        if (g()) {
+        if (g(b)) {
             T[n++] = A;
-            T[n++] = p(m+2);
+            T[n++] = p(m+2,b);
         //00 -> abstraction
         } else {
             T[n++] = L;
         }
         // decode the rest of the input
-        p(n);
+        p(n,b);
     }
     return n-m;
 }
@@ -118,8 +115,9 @@ int p(int m) {
 int main(int argc, char **argv) {
     int t = argc;
     char o;
-    b=t>1?0:7;
-    T[43]=p(n);
+    // b=0 for bit mode and 7 for byte mode
+    const int b=t>1?0:7;
+    T[43]=p(n,b);
     for (int j = 43; j < n; j++) {
         debug("T[%d]: %d\n", j, T[j]);
     }
@@ -131,24 +129,24 @@ int main(int argc, char **argv) {
         switch(T[t]) {
         case I:
             debug("I");
-            g();
+            g(b);
             i++;
             assert(n<M-99);
             //not EOF and in byte mode, setup one byte
             if (~c&&b) {
                 x(0,6);
-                for(T[n-5]=96; i; T[n++]=!g())
+                for(T[n-5]=96; i; T[n++]=!g(b))
                     x(0,9);
             }
             //EOF reached
             if (c < 0) {
                 x(7, 9);
-            //in binary mode, setup one bit
+            //in bit mode, setup one bit
             //in byte mode, terminate byte list
             } else {
                 x(b, 9);
             }
-            T[n++]=!b&&!g();
+            T[n++]=!b&&!g(b);
             break;
         case O:
             debug("O");
