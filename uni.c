@@ -156,9 +156,14 @@ int main(int argc, char **argv) {
             break;
         case O:
             debug("O");
-            t=b+t>42?
-                (o=2*o|(t&1),28):
-                (putchar(b?o:t+8),fflush(stdout),b?12:28);
+            if (b + t > 42) {
+                o = 2*o|(t&1);
+                t = 28;
+            } else {
+                putchar(b?o:t+8);
+                fflush(stdout);
+                t = b?12:28;
+            }
             break;
         case V: {
             debug("V");
