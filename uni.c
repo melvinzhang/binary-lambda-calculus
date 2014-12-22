@@ -32,11 +32,15 @@ int c;
 
 // Lambda term space
 int T[M]= {
-               L,A,8,A,2,  V,0,L,L,V,
+                 L,A,8,A,2,  V,0,L,L,V,
 //10 - start here for byte mode
-A,30,L,A,2,V,0,L,A,5,A,7,L,V,0,O,
+//V    12 - jump here after output a byte
+//     V
+  A,30,L,A,2,V,0,L,A,5,A,7,L,V,0,O,
 //26 - start here for bit mode
-A,14,L,A,2,V,0,L,A,5,A,2,  V,0,O,O,A
+//V    28 - jump here after output a bit
+//     V
+  A,14,L,A,2,V,0,L,A,5,A,2,  V,0,O,O,A
 };
 // end of T
 int n=44;
