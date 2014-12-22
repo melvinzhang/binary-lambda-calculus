@@ -86,6 +86,12 @@ int g() {
     return c>>i&1;
 }
 
+void w(char o) {
+    putchar(o);
+    debug("\nP %c", o);
+    fflush(stdout);
+}
+
 //decrease reference counter, add record to free list on reaching zero
 void d(C *l) {
     if (l) {
@@ -156,14 +162,18 @@ int main(int argc, char **argv) {
             break;
         case O:
             debug("O");
-            if (b + t > 42) {
+            if (b && t != 25) {
                 o = 2*o|(t&1);
                 t = 28;
-            } else {
-                putchar(b?o:t+8);
-                debug("\nP %c", b?o:t+8);
-                fflush(stdout);
-                t = b?12:28;
+            } else if (b) {
+                w(o);
+                t = 12;
+            } else if (t == 40) {
+                w('0');
+                t = 28;
+            } else if (t == 41) {
+                w('1');
+                t = 28;
             }
             break;
         case V: {
