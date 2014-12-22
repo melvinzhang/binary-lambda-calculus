@@ -12,7 +12,9 @@ enum {
     // input
     I,
     // output
-    O,
+    OB,
+    O0,
+    O1,
     // denotes a variable, with next entry its de Bruijn index
     V,
     // denotes application with next entry the size of the term being applied
@@ -36,11 +38,11 @@ int T[M]= {
 //10 - start here for byte mode
 //V    12 - jump here after output a byte
 //     V
-  A,30,L,A,2,V,0,L,A,5,A,7,L,V,0,O,
+  A,30,L,A,2,V,0,L,A,5,A,7,L,V,0,OB,
 //26 - start here for bit mode
 //V    28 - jump here after output a bit
 //     V
-  A,14,L,A,2,V,0,L,A,5,A,2,  V,0,O,O,A
+  A,14,L,A,2,V,0,L,A,5,A,2,  V,0,O0,O1,A
 };
 // end of T
 int n=44;
@@ -160,21 +162,28 @@ int main(int argc, char **argv) {
             }
             T[n++]=!b&&!g();
             break;
-        case O:
-            debug("O");
-            if (b && t != 25) {
-                o = 2*o|(t&1);
-                t = 28;
-            } else if (b) {
-                w(o);
-                t = 12;
-            } else if (t == 40) {
+        case OB:
+            debug("OB");
+            w(o);
+            t = 12;
+            break;
+        case O0:
+            debug("O0");
+            if (b) {
+                o = 2 * o + 0;
+            } else {
                 w('0');
-                t = 28;
-            } else if (t == 41) {
-                w('1');
-                t = 28;
             }
+            t = 28;
+            break;
+        case O1:
+            debug("O1");
+            if (b) {
+                o = 2 * o + 1;
+            } else {
+                w('1');
+            }
+            t = 28;
             break;
         case V: {
             //resolve v to an environment e and continue execution
