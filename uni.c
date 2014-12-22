@@ -124,6 +124,15 @@ int p(const int m) {
     return n-m;
 }
 
+void show(C *h, char *s) {
+    debug("%s ", s);
+    while (h) {
+        debug("(t:%d, r:%d, e:%p, a:%p) ", h->t, h->r, h->e, h);
+        h = h->n;
+    }
+    debug("\n");
+}
+
 int main(int argc, char **argv) {
     int t = argc;
     char o;
@@ -135,8 +144,10 @@ int main(int argc, char **argv) {
     i=0;
     // index into T
     t=b?10:26;
-    while(1) { 
-        debug("t:%d, s:%p, e:%p, T[t]:", t, s, e);
+    while(1) {
+        show(s, "S");
+        show(e, "E");
+        debug("t:%d, T[t]:", t);
         switch(T[t]) {
         case I:
             debug("I");
