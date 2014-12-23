@@ -35,6 +35,15 @@ int c;
 
 // Lambda term space
 int T[M]= {
+//encoding of input stream
+// S = L A8,A2V0 ..
+// 0 = L A8 A2V0LLV0 ..
+// 1 = L A8 A2V0LLV1 ..
+// E = LL V0
+// bit input : 10
+// encoded   : 10E
+// byte input: \1\0
+// encoded   : S00000001E S00000000E E
                  L,A,8,A,2,  V,0,L,L,V,
 //10 - start here for byte mode
 //V    12 - jump here after output a byte
