@@ -28,7 +28,7 @@ enum {
 int b;
 
 //bits left in current byte
-int i;
+int left;
 
 //current input char
 int c;
@@ -86,13 +86,13 @@ void x(int l,int u) {
 
 //gets one bit of input, setting i to -1 on EOF or to remaining number of bits in current byte
 int g() {
-    if (i == 0) {
-        i=b;
+    if (left == 0) {
+        left=b;
         c=getchar();
     } else {
-        i--;
+        left--;
     }
-    return c>>i&1;
+    return (c>>left)&1;
 }
 
 void w(char o) {
@@ -123,7 +123,8 @@ int p(const int m) {
         //01 -> application
         if (g()) {
             T[n++] = A;
-            T[n++] = p(m+2);
+            int j = n++;
+            T[j] = p(m+2);
         //00 -> abstraction
         } else {
             T[n++] = L;
@@ -214,7 +215,7 @@ int main(int argc, char **argv) {
     assert(showT());
 
     // clear bits left
-    i=0;
+    left=0;
 
     while(1) {
         //assert(showL(freel, "F"));
@@ -225,12 +226,12 @@ int main(int argc, char **argv) {
         case I:
             debug("I");
             g();
-            i++;
+            left++;
             assert(n<M-99);
             //not EOF and in byte mode, setup one byte
             if (~c&&b) {
                 x(0,6);
-                for(T[n-5]=96; i; T[n++]=!g())
+                for(T[n-5]=96; left; T[n++]=!g())
                     x(0,9);
             }
             //EOF reached
