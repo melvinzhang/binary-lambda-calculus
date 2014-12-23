@@ -95,7 +95,7 @@ void w(char o) {
 //decrease reference counter, add record to free list on reaching zero
 void d(C *l) {
     if (l) {
-        --l->r;
+        l->r--;
         if (l->r == 0) {
             d(l->e);
             d(l->n);
