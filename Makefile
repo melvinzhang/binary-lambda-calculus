@@ -54,3 +54,6 @@ trace.b: id.blc unid
 
 trace.B: id.Blc unid
 	(cat $<; echo -n 10) | ./unid 2> $@
+
+debug: test.blc unid
+	cat $< | ./unid -b -p 2> $@
