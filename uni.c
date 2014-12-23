@@ -142,6 +142,32 @@ int showT() {
     return 1;
 }
 
+C* newC() {
+    if (!freel) {
+        freel=calloc(1,sizeof(C));
+    }
+    assert(freel);
+    C *l=freel;
+    freel=l->n;
+    return l;
+}
+
+void pushS(C* l) {
+    l->n = s;
+    s = l;
+}
+
+C* popS() {
+    C *l = s;
+    s = s->n;
+    return l;
+}
+
+void pushE(C* l) {
+    l->n = e;
+    e = l;
+}
+
 int main(int argc, char **argv) {
     // default is byte mode
     //  7 for byte mode
@@ -247,20 +273,14 @@ int main(int argc, char **argv) {
             debug("A");
             debug(" %d", T[t+1]);
             t+=2;
-            if (!freel) {
-                freel=calloc(1,sizeof(C));
-            }
-            assert(freel);
-            C *l=freel;
-            freel=l->n;
+            C *l=newC();
             l->r=1;
             l->t=t+T[t-1];
             l->e=e;
             if (e) {
                 e->r++;
             }
-            l->n = s;
-            s = l;
+            pushS(l);
             break;
         }
         case L: {
@@ -269,10 +289,7 @@ int main(int argc, char **argv) {
             if (!s) {
                 return 0;
             }
-            C *l = s->n;
-            s->n = e;
-            e = s;
-            s = l;
+            pushE(popS());
             t++;
             break;
         }}
