@@ -97,10 +97,24 @@ int g() {
     return (c>>left)&1;
 }
 
+//write one char to stdout
 void w(char o) {
     putchar(o);
     log("\nP %c", o);
     fflush(stdout);
+}
+
+//push l onto top
+void push(C** top, C* l) {
+    l->n = *top;
+    *top = l;
+}
+
+//pop the top element
+C* pop(C** top) {
+    C *l = *top;
+    *top = (*top)->n;
+    return l;
 }
 
 //decrease reference counter, add record to free list on reaching zero
@@ -110,8 +124,7 @@ void d(C *l) {
         if (l->r == 0) {
             d(l->e);
             d(l->n);
-            l->n=freel;
-            freel=l;
+            push(&freel, l);
         }
     }
 }
@@ -170,17 +183,6 @@ C* newC(int ar, int at, C* ae) {
     if (ae) {
         ae->r++;
     }
-    return l;
-}
-
-void push(C** top, C* l) {
-    l->n = *top;
-    *top = l;
-}
-
-C* pop(C** top) {
-    C *l = *top;
-    *top = (*top)->n;
     return l;
 }
 
