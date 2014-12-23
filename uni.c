@@ -3,10 +3,12 @@
 #include <assert.h>
 #include <getopt.h>
 
-#ifdef NDEBUG
-#define debug(M, ...)
+#ifdef LOG
+#define log(M, ...) fprintf(stderr, M, ##__VA_ARGS__)
+#define logp(M) M
 #else
-#define debug(M, ...) fprintf(stderr, M, ##__VA_ARGS__)
+#define log(M, ...)
+#define logp(M)
 #endif
 
 enum {
@@ -80,7 +82,7 @@ C* s;
 
 //copy T[l..u] to end of T
 void x(int l,int u) {
-    debug("\nX %d %d", l, u);
+    log("\nX %d %d", l, u);
     for(; l<=u; T[n++]=T[l++]);
 }
 
@@ -97,7 +99,7 @@ int g() {
 
 void w(char o) {
     putchar(o);
-    debug("\nP %c", o);
+    log("\nP %c", o);
     fflush(stdout);
 }
 
@@ -135,21 +137,19 @@ int p(const int m) {
     return n-m;
 }
 
-int showL(C *h, char *s) {
-    debug("%s ", s);
+void showL(C *h, char *s) {
+    log("%s ", s);
     while (h) {
-        debug("(t:%d, r:%d, e:%p, a:%p) ", h->t, h->r, h->e, h);
+        log("(t:%d, r:%d, e:%p, a:%p) ", h->t, h->r, h->e, h);
         h = h->n;
     }
-    debug("\n");
-    return 1;
+    log("\n");
 }
 
-int showT() {
+void showT() {
     for (int j = 43; j < n; j++) {
-        debug("T[%d]: %d\n", j, T[j]);
+        log("T[%d]: %d\n", j, T[j]);
     }
-    return 1;
 }
 
 C* newC(int ar, int at, C* ae) {
@@ -212,19 +212,19 @@ int main(int argc, char **argv) {
     T[43]=p(n);
 
     // show loaded program
-    assert(showT());
+    logp(showT());
 
     // clear bits left
     left=0;
 
     while(1) {
         //assert(showL(freel, "F"));
-        assert(showL(s, "S"));
-        assert(showL(e, "E"));
-        debug("t:%d, T[t]:", t);
+        logp(showL(s, "S"));
+        logp(showL(e, "E"));
+        log("t:%d, T[t]:", t);
         switch(T[t]) {
         case I:
-            debug("I");
+            log("I");
             g();
             left++;
             assert(n<M-99);
@@ -245,12 +245,12 @@ int main(int argc, char **argv) {
             T[n++]=!b&&!g();
             break;
         case OB:
-            debug("OB");
+            log("OB");
             w(o);
             t = 12;
             break;
         case O0:
-            debug("O0");
+            log("O0");
             if (b) {
                 o = 2 * o + 0;
             } else {
@@ -259,7 +259,7 @@ int main(int argc, char **argv) {
             t = 28;
             break;
         case O1:
-            debug("O1");
+            log("O1");
             if (b) {
                 o = 2 * o + 1;
             } else {
@@ -270,8 +270,8 @@ int main(int argc, char **argv) {
         case V: {
             //resolve v to an environment e and continue execution
             //with t = e->t and e = e->e
-            debug("V");
-            debug(" %d", T[t+1]);
+            log("V");
+            log(" %d", T[t+1]);
             C *l=e;
             for(t=T[t+1]; t--; e=e->n);
             t=e->t;
@@ -286,15 +286,15 @@ int main(int argc, char **argv) {
             //create a closure and push it onto S
             // t = index of term that is the argument
             // e = current environment
-            debug("A");
-            debug(" %d", T[t+1]);
+            log("A");
+            log(" %d", T[t+1]);
             t+=2;
             pushS(newC(1, t+T[t-1], e));
             break;
         }
         case L: {
             //pop closure from stack and make it top level environment
-            debug("L");
+            log("L");
             if (!s) {
                 return 0;
             }
@@ -302,7 +302,7 @@ int main(int argc, char **argv) {
             t++;
             break;
         }}
-        debug("\n");
+        log("\n");
     }
     return T[t+2];
 }
