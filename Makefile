@@ -59,4 +59,4 @@ trace.B: id.Blc unid
 	(cat $<; echo -n 10) | ./unid 2> $@
 
 debug: test.blc unid
-	cat $< | ./unid -b 2> $@
+	(cat $<; echo -n 10) | ./unid -b 2> $@
