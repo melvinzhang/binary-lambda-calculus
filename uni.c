@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <getopt.h>
 
 #ifdef NDEBUG
 #define debug(M, ...)
@@ -45,7 +46,7 @@ int T[M]= {
   A,14,L,A,2,V,0,L,A,5,A,2,  V,0,O0,O1,A
 };
 // end of T
-int n=44;
+int n = 44;
 
 //closure
 typedef struct _ {
@@ -142,14 +143,38 @@ int showT() {
 }
 
 int main(int argc, char **argv) {
-    int t = argc;
+    // default is byte mode
+    //  7 for byte mode
+    //  0 for bit mode
+    b = 7;
+    
+    // current term to be processed
+    //  10 for byte mode
+    //  26 for bit mode
+    int t = 10;
+    
+    // output char
     char o;
-    b=t>1?0:7;
+   
+    // process options
+    char ch;
+    while ((ch = getopt(argc, argv, "bBp")) != -1) {
+        switch (ch) {
+          case 'B': b = 7; t = 10; break;
+          case 'b': b = 0; t = 26; break;
+          case 'p': t = 44; break;
+        }
+    }
+
+    // read program into end of T and store its size in T[43];
     T[43]=p(n);
+
+    // show loaded program
     assert(showT());
+
+    // clear bits left
     i=0;
-    // index into T
-    t=b?10:26;
+
     while(1) {
         //assert(showL(freel, "F"));
         assert(showL(s, "S"));
