@@ -142,13 +142,19 @@ int showT() {
     return 1;
 }
 
-C* newC() {
+C* newC(int ar, int at, C* ae) {
     if (!freel) {
         freel=calloc(1,sizeof(C));
     }
     assert(freel);
     C *l=freel;
     freel=l->n;
+    l->r=ar;
+    l->t=at;
+    l->e=ae;
+    if (ae) {
+        ae->r++;
+    }
     return l;
 }
 
@@ -273,14 +279,7 @@ int main(int argc, char **argv) {
             debug("A");
             debug(" %d", T[t+1]);
             t+=2;
-            C *l=newC();
-            l->r=1;
-            l->t=t+T[t-1];
-            l->e=e;
-            if (e) {
-                e->r++;
-            }
-            pushS(l);
+            pushS(newC(1, t+T[t-1], e));
             break;
         }
         case L: {
