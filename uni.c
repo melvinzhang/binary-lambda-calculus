@@ -173,20 +173,15 @@ C* newC(int ar, int at, C* ae) {
     return l;
 }
 
-void pushS(C* l) {
-    l->n = s;
-    s = l;
+void push(C** top, C* l) {
+    l->n = *top;
+    *top = l;
 }
 
-C* popS() {
-    C *l = s;
-    s = s->n;
+C* pop(C** top) {
+    C *l = *top;
+    *top = (*top)->n;
     return l;
-}
-
-void pushE(C* l) {
-    l->n = e;
-    e = l;
 }
 
 int main(int argc, char **argv) {
@@ -294,7 +289,7 @@ int main(int argc, char **argv) {
             log("A");
             log(" %d", T[t+1]);
             t+=2;
-            pushS(newC(1, t+T[t-1], e));
+            push(&s, newC(1, t+T[t-1], e));
             break;
         }
         case L: {
@@ -303,7 +298,7 @@ int main(int argc, char **argv) {
             if (!s) {
                 return 0;
             }
-            pushE(popS());
+            push(&e, pop(&s));
             t++;
             break;
         }}

@@ -1,2 +1,2 @@
 I = (\x x)
-(\x x x x x x x)(I I)
+(\x x x)(I I)
