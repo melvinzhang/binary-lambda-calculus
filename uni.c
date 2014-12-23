@@ -147,8 +147,13 @@ void showL(C *h, char *s) {
 }
 
 void showT() {
-    for (int j = 43; j < n; j++) {
-        log("T[%d]: %d\n", j, T[j]);
+    for (int j = 44; j < n; j++) {
+        log("T[%d]: ", j);
+        switch (T[j]) {
+            case V: log("V %d\n", T[j+1]); j++; break;
+            case A: log("A %d\n", T[j+1]); j++; break;
+            case L: log("L\n"); break;
+        }
     }
 }
 
