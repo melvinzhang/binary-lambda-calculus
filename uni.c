@@ -290,8 +290,9 @@ int main(int argc, char **argv) {
             // e = current environment
             log("A");
             log(" %d", T[t+1]);
+            const int size = T[t+1];
             t+=2;
-            push(&s, newC(1, t+T[t-1], e));
+            push(&s, newC(1, t+size, e));
             break;
         }
         case L: {
