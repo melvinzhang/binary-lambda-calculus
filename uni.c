@@ -164,14 +164,23 @@ void showL(C *h, char *s) {
     log("\n");
 }
 
-void showT() {
-    for (int j = 44; j < n; j++) {
-        log("T[%d]: ", j);
-        switch (T[j]) {
-            case V: log("V %d\n", T[j+1]); j++; break;
-            case A: log("A %d\n", T[j+1]); j++; break;
-            case L: log("L\n"); break;
-        }
+int showI(int j) {
+    log("T[%d]: ", j);
+    switch (T[j]) {
+        case V: log("V %d\n", T[j+1]); j++; break;
+        case A: log("A %d\n", T[j+1]); j++; break;
+        case L: log("L\n"); break;
+        case OB: log("OB\n"); break;
+        case O0: log("O0\n"); break;
+        case O1: log("O1\n"); break;
+    }
+    j++;
+    return j;
+}
+
+void showP() {
+    for (int j = 44; j < n;) {
+        j = showI(j);
     }
 }
 
@@ -220,7 +229,7 @@ int main(int argc, char **argv) {
     T[43]=p(n);
 
     // show loaded program
-    logp(showT());
+    logp(showP());
 
     // clear bits left
     left=0;
@@ -229,7 +238,7 @@ int main(int argc, char **argv) {
         //assert(showL(freel, "F"));
         logp(showL(s, "S"));
         logp(showL(e, "E"));
-        log("t:%d, T[t]:", t);
+        logp(showI(t));
         switch(T[t]) {
         case I:
             log("I");
@@ -279,8 +288,6 @@ int main(int argc, char **argv) {
             //resolve v to an environment e and continue execution
             //with t = e->t and e = e->e
             const int index = T[t+1];
-            log("V");
-            log(" %d", index);
             C *old = e;
             C *env = e;
             for(int j=index; j--; env=env->n);
@@ -297,15 +304,12 @@ int main(int argc, char **argv) {
             // t = index of term that is the argument
             // e = current environment
             const int size = T[t+1];
-            log("A");
-            log(" %d", size);
             t+=2;
             push(&s, newC(1, t+size, e));
             break;
         }
         case L: {
             //pop closure from stack and make it top level environment
-            log("L");
             if (!s) {
                 return 0;
             }
@@ -313,7 +317,6 @@ int main(int argc, char **argv) {
             t++;
             break;
         }}
-        log("\n");
     }
     return T[t+2];
 }
