@@ -278,11 +278,12 @@ int main(int argc, char **argv) {
         case V: {
             //resolve v to an environment e and continue execution
             //with t = e->t and e = e->e
+            const int index = T[t+1];
             log("V");
-            log(" %d", T[t+1]);
+            log(" %d", index);
             C *old = e;
             C *env = e;
-            for(int j=T[t+1]; j--; env=env->n);
+            for(int j=index; j--; env=env->n);
             t=env->t;
             e=env->e;
             if (e) {
@@ -295,9 +296,9 @@ int main(int argc, char **argv) {
             //create a closure and push it onto S
             // t = index of term that is the argument
             // e = current environment
-            log("A");
-            log(" %d", T[t+1]);
             const int size = T[t+1];
+            log("A");
+            log(" %d", size);
             t+=2;
             push(&s, newC(1, t+size, e));
             break;
