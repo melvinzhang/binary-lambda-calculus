@@ -26,6 +26,11 @@ enum {
     L
 };
 
+// optimization flag
+// false = default
+// true  = call-by-need
+int opt = 0;
+
 // b=0 for bit mode and 7 for byte mode
 int b;
 
@@ -202,11 +207,12 @@ int main(int argc, char **argv) {
    
     // process options
     char ch;
-    while ((ch = getopt(argc, argv, "bBp")) != -1) {
+    while ((ch = getopt(argc, argv, "bBpo")) != -1) {
         switch (ch) {
           case 'B': b = 7; t = 10; break;
           case 'b': b = 0; t = 26; break;
           case 'p': t = 44; break;
+          case 'o': opt = 1; break;
         }
     }
 
@@ -274,14 +280,15 @@ int main(int argc, char **argv) {
             //with t = e->t and e = e->e
             log("V");
             log(" %d", T[t+1]);
-            C *l=e;
-            for(t=T[t+1]; t--; e=e->n);
-            t=e->t;
-            e=e->e;
+            C *old = e;
+            C *env = e;
+            for(int j=T[t+1]; j--; env=env->n);
+            t=env->t;
+            e=env->e;
             if (e) {
                 e->r++;
             }
-            d(l);
+            d(old);
             break;
         }
         case A: {
