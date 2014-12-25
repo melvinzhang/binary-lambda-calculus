@@ -294,6 +294,7 @@ int main(int argc, char **argv) {
             }
             d(old);
 
+            //mark env to be updated to point to normal form
             if (opt && (T[t] == A || T[t] == V) && env->r > 0) {
                 log("OPT MARK %d\n", t);
                 push(&s, newC(0, 0, env));
@@ -310,6 +311,7 @@ int main(int argc, char **argv) {
             break;
         }
         case L: {
+            //update env to point to normal form (t,e)
             while (opt && s && s->t == 0) {
                 C* marker = pop(&s);
                 C* env = marker->e;
@@ -323,6 +325,7 @@ int main(int argc, char **argv) {
                 push(&freel, marker);
                 log("->%d\n", t);
             }
+
             //pop closure from stack and make it top level environment
             if (!s) {
                 return 0;
