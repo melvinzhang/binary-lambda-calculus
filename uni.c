@@ -313,10 +313,11 @@ int main(int argc, char **argv) {
         case L: {
             if (opt && s && s->t == 0) {
                 C* marker = pop(&s);
-                log("OPT UPDATE %d", marker->e->t);
-                marker->e->t = t;
-                marker->e->e = e;
-                marker->e->r--;
+                C* env = marker->e;
+                log("OPT UPDATE %d", env->t);
+                env->t = t;
+                env->e = e;
+                env->r--;
                 if (e) {
                     e->r++;
                 }
