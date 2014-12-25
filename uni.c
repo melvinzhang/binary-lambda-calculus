@@ -194,6 +194,9 @@ C* newC(int ar, int at, C* ae) {
     l->r=ar;
     l->t=at;
     l->e=ae;
+    if (ae) {
+        ae->r++;
+    }
     return l;
 }
 
@@ -293,7 +296,6 @@ int main(int argc, char **argv) {
             if (opt && (T[t] == A || T[t] == V)) {
                 log("OPT MARK %d\n", t);
                 push(&s, newC(0, 0, env));
-                env->r++;
             }
 
             d(old);
@@ -306,9 +308,6 @@ int main(int argc, char **argv) {
             const int size = T[t+1];
             t+=2;
             push(&s, newC(1, t+size, e));
-            if (e) {
-                e->r++;
-            }
             break;
         }
         case L: {
