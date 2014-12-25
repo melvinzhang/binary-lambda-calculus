@@ -311,7 +311,7 @@ int main(int argc, char **argv) {
             break;
         }
         case L: {
-            if (opt && s && s->t == 0) {
+            while (opt && s && s->t == 0) {
                 C* marker = pop(&s);
                 C* env = marker->e;
                 log("OPT UPDATE %d", env->t);
@@ -323,7 +323,6 @@ int main(int argc, char **argv) {
                 }
                 push(&freel, marker);
                 log("->%d\n", t);
-                break;
             }
             //pop closure from stack and make it top level environment
             if (!s) {
