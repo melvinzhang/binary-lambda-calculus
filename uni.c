@@ -292,13 +292,12 @@ int main(int argc, char **argv) {
             if (e) {
                 e->r++;
             }
+            d(old);
 
-            if (opt && (T[t] == A || T[t] == V)) {
+            if (opt && (T[t] == A || T[t] == V) && env->r > 0) {
                 log("OPT MARK %d\n", t);
                 push(&s, newC(0, 0, env));
             }
-
-            d(old);
             break;
         }
         case A: {
@@ -315,9 +314,9 @@ int main(int argc, char **argv) {
                 C* marker = pop(&s);
                 C* env = marker->e;
                 log("OPT UPDATE %d", env->t);
+                env->r--;
                 env->t = t;
                 env->e = e;
-                env->r--;
                 if (e) {
                     e->r++;
                 }
