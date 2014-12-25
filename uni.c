@@ -195,9 +195,6 @@ C* newC(int ar, int at, C* ae) {
     l->r=ar;
     l->t=at;
     l->e=ae;
-    if (ae) {
-        ae->r++;
-    }
     return l;
 }
 
@@ -308,6 +305,9 @@ int main(int argc, char **argv) {
             const int size = T[t+1];
             t+=2;
             push(&s, newC(1, t+size, e));
+            if (e) {
+                e->r++;
+            }
             break;
         }
         case L: {
