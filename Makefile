@@ -44,16 +44,6 @@ primes.bin: primes.blc
 hw_in_bf: bf.Blc hw.bf
 	cat $^ | ./uni
 
-test_uni: uni1.blc primes.blc uni
-	@cat primes.blc | ./uni -b | head -c 70
-	@echo
-	@cat uni1.blc primes.blc | ./uni -b | head -c 70
-	@echo
-	@cat uni1.blc uni1.blc primes.blc | ./uni -b | head -c 70
-	@echo
-	@cat uni1.blc uni1.blc uni1.blc primes.blc | ./uni -b | head -c 70
-	@echo
-
 trace.b: id.blc unid
 	(cat $<; echo -n 10) | ./unid -b 2> $@
 
@@ -71,7 +61,17 @@ test_opt: uni unid
 	(cat hilbert.Blc; echo -n 12) | ./unid 2> debug.orig
 	(cat hilbert.Blc; echo -n 12) | ./unid -o 2> debug.opt
 
-test_opt2: uni1.blc primes.blc uni
+bench_uni: uni1.blc primes.blc uni
+	@cat primes.blc | ./uni -b | head -c 70
+	@echo
+	@cat uni1.blc primes.blc | ./uni -b | head -c 70
+	@echo
+	@cat uni1.blc uni1.blc primes.blc | ./uni -b | head -c 70
+	@echo
+	@cat uni1.blc uni1.blc uni1.blc primes.blc | ./uni -b | head -c 70
+	@echo
+
+bench_opt: uni1.blc primes.blc uni
 	@cat primes.blc | ./uni -b -o | head -c 70
 	@echo
 	@cat uni1.blc primes.blc | ./uni -b -o | head -c 70
