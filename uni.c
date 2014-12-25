@@ -294,6 +294,11 @@ int main(int argc, char **argv) {
                 e->r++;
             }
             d(old);
+
+            if (opt && T[t] == A) {
+                log("OPT MARK %d\n", t);
+                push(&s, newC(0, -1, env));
+            }
             break;
         }
         case A: {
@@ -306,6 +311,15 @@ int main(int argc, char **argv) {
             break;
         }
         case L: {
+            if (opt && s && s->t < 0) {
+                C* marker = pop(&s);
+                log("OPT UPDATE %d", marker->e->t);
+                marker->e->t = t;
+                marker->e->e = e;
+                push(&freel, marker);
+                log("->%d\n", t);
+                break;
+            }
             //pop closure from stack and make it top level environment
             if (!s) {
                 return 0;
