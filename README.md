@@ -9,4 +9,5 @@ continuations (See the 3rd reference for details.)
 The present version adds options parsing and supports the following options
 
 * -b: binary mode
-* -o: uses a lazy Krivine machine with call-by-need instead of call-by-name
+* -o: interpret with a call-by-need lazy Krivine machine,
+      specifically the L machine defined in http://www.cs.indiana.edu/ftp/techreports/TR581.pdf
