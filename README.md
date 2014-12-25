@@ -7,5 +7,6 @@ continuations (See the 3rd reference for details.)
 -- http://www.ioccc.org/2012/tromp/how13
 
 The present version adds options parsing and supports the following options
--b: binary mode
--o: uses a lazy Krivine machine with call-by-need instead of call-by-name
+
+* -b: binary mode
+* -o: uses a lazy Krivine machine with call-by-need instead of call-by-name
