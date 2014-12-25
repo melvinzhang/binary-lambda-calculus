@@ -60,3 +60,7 @@ trace.B: id.Blc unid
 
 debug: test.blc unid
 	(cat $<; echo -n 10) | ./unid -b 2> $@
+
+test_opt: unid
+	(cat hilbert.Blc; echo -n 1) | ./unid 2> debug.orig
+	(cat hilbert.Blc; echo -n 1) | ./unid -o 2> debug.opt
