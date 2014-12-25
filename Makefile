@@ -68,3 +68,11 @@ test_opt: uni unid
 	@echo
 	(cat hilbert.Blc; echo -n 12) | ./unid 2> debug.orig
 	(cat hilbert.Blc; echo -n 12) | ./unid -o 2> debug.opt
+
+test_opt2: uni1.blc primes.blc uni
+	@cat primes.blc | ./uni -b -o | head -c 70
+	@echo
+	@cat uni1.blc primes.blc | ./uni -b -o | head -c 70
+	@echo
+	@cat uni1.blc uni1.blc primes.blc | ./uni -b -o | head -c 70
+	@echo
