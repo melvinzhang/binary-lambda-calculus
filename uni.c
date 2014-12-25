@@ -232,7 +232,7 @@ int main(int argc, char **argv) {
     left=0;
 
     while(1) {
-        //assert(showL(freel, "F"));
+        //logp(showL(freel, "F"));
         logp(showL(s, "S"));
         logp(showL(e, "E"));
         logp(showI(t));
