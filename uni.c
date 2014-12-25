@@ -289,12 +289,14 @@ int main(int argc, char **argv) {
             if (e) {
                 e->r++;
             }
-            d(old);
 
-            if (opt && T[t] == A) {
+            if (opt && (T[t] == A || T[t] == V)) {
                 log("OPT MARK %d\n", t);
-                push(&s, newC(0, -1, env));
+                push(&s, newC(0, 0, env));
+                env->r++;
             }
+
+            d(old);
             break;
         }
         case A: {
@@ -310,11 +312,15 @@ int main(int argc, char **argv) {
             break;
         }
         case L: {
-            if (opt && s && s->t < 0) {
+            if (opt && s && s->t == 0) {
                 C* marker = pop(&s);
                 log("OPT UPDATE %d", marker->e->t);
                 marker->e->t = t;
                 marker->e->e = e;
+                //TODO 
+                //  should decrement reference by 1, but uncommenting this
+                //  cause bugs
+                //marker->e->r--;
                 push(&freel, marker);
                 log("->%d\n", t);
                 break;

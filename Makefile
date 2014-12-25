@@ -62,6 +62,8 @@ debug: test.blc unid
 	(cat $<; echo -n 10) | ./unid -b 2> $@
 
 test_opt: uni unid
+	(cat oddindices.Blc; echo -n " "; cat primes.blc | ./uni -b) | ./uni | head -c 70
+	@echo
 	(cat oddindices.Blc; echo -n " "; cat primes.blc | ./uni -b -o) | ./uni -o | head -c 70
 	@echo
 	(cat hilbert.Blc; echo -n 12) | ./unid 2> debug.orig
