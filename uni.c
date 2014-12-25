@@ -317,10 +317,10 @@ int main(int argc, char **argv) {
                 log("OPT UPDATE %d", marker->e->t);
                 marker->e->t = t;
                 marker->e->e = e;
-                //TODO 
-                //  should decrement reference by 1, but uncommenting this
-                //  cause bugs
-                //marker->e->r--;
+                marker->e->r--;
+                if (e) {
+                    e->r++;
+                }
                 push(&freel, marker);
                 log("->%d\n", t);
                 break;
