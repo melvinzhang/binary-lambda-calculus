@@ -190,8 +190,7 @@ C* newC(int ar, int at, C* ae) {
         freel=calloc(1,sizeof(C));
     }
     assert(freel);
-    C *l=freel;
-    freel=l->n;
+    C *l=pop(&freel);
     l->r=ar;
     l->t=at;
     l->e=ae;
