@@ -167,12 +167,13 @@ void showL(C *h, char *s) {
 int showI(int j) {
     log("T[%d]: ", j);
     switch (T[j]) {
-        case V: log("V %d\n", T[j+1]); j++; break;
-        case A: log("A %d\n", T[j+1]); j++; break;
-        case L: log("L\n"); break;
+        case I: log("I\n"); break;
         case OB: log("OB\n"); break;
         case O0: log("O0\n"); break;
         case O1: log("O1\n"); break;
+        case V: log("V %d\n", T[j+1]); j++; break;
+        case A: log("A %d\n", T[j+1]); j++; break;
+        case L: log("L\n"); break;
     }
     j++;
     return j;
@@ -241,7 +242,6 @@ int main(int argc, char **argv) {
         logp(showI(t));
         switch(T[t]) {
         case I:
-            log("I");
             g();
             left++;
             assert(n<M-99);
@@ -262,12 +262,10 @@ int main(int argc, char **argv) {
             T[n++]=!b&&!g();
             break;
         case OB:
-            log("OB");
             w(o);
             t = 12;
             break;
         case O0:
-            log("O0");
             if (b) {
                 o = 2 * o + 0;
             } else {
@@ -276,7 +274,6 @@ int main(int argc, char **argv) {
             t = 28;
             break;
         case O1:
-            log("O1");
             if (b) {
                 o = 2 * o + 1;
             } else {
