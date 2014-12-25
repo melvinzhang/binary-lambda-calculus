@@ -105,7 +105,7 @@ int g() {
 //write one char to stdout
 void w(char o) {
     putchar(o);
-    log("\nP %c", o);
+    log("P %c\n", o);
     fflush(stdout);
 }
 
