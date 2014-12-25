@@ -315,7 +315,7 @@ int main(int argc, char **argv) {
             while (opt && s && s->t == 0) {
                 C* marker = pop(&s);
                 C* env = marker->e;
-                log("OPT UPDATE %d", env->t);
+                int old_t = env->t;
                 env->r--;
                 env->t = t;
                 env->e = e;
@@ -323,7 +323,7 @@ int main(int argc, char **argv) {
                     e->r++;
                 }
                 push(&freel, marker);
-                log("->%d\n", t);
+                log("OPT UPDATE %p %d->%d\n", env, old_t, env->t);
             }
 
             //pop closure from stack and make it top level environment
