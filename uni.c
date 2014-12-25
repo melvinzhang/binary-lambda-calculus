@@ -87,7 +87,7 @@ C* s;
 
 //copy T[l..u] to end of T
 void x(int l,int u) {
-    log("\nX %d %d", l, u);
+    log("X %d %d\n", l, u);
     for(; l<=u; T[n++]=T[l++]);
 }
 
