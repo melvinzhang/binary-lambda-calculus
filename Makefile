@@ -51,6 +51,8 @@ test_uni: uni1.blc primes.blc uni
 	@echo
 	@cat uni1.blc uni1.blc primes.blc | ./uni -b | head -c 70
 	@echo
+	@cat uni1.blc uni1.blc uni1.blc primes.blc | ./uni -b | head -c 70
+	@echo
 
 trace.b: id.blc unid
 	(cat $<; echo -n 10) | ./unid -b 2> $@
@@ -75,4 +77,6 @@ test_opt2: uni1.blc primes.blc uni
 	@cat uni1.blc primes.blc | ./uni -b -o | head -c 70
 	@echo
 	@cat uni1.blc uni1.blc primes.blc | ./uni -b -o | head -c 70
+	@echo
+	@cat uni1.blc uni1.blc uni1.blc primes.blc | ./uni -b -o | head -c 70
 	@echo
