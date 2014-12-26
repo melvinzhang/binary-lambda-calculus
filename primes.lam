@@ -6,7 +6,7 @@ Y = (\f ((\x x x) (\x f (x x))))
 
 A = ((\f b f (Y (\g f g))) (\f \g \h \i i g (h (d f))))
 B = (\b \d (C F A))
-D = (\c \d \e (C T (e c)))
+D = (\c \_ \e (C T (e c)))
 P = (Y B D)
 
-\a (C T (C T P))
+\_ (C T (C T P))
