@@ -2,6 +2,10 @@ T = (\t \f t)
 F = (\t \f f)
 C = (\a \b \z z a b)
 U = (\c c c)
-B = (\c \d \e e F ((\f c c f (U (\g f (g g)))) (\f \g \h \i i g (h (d f)))))
-P = (U B (\c \d \e (C T (e c))))
+Y = (\f ((\x x x) (\x f (x x))))
+
+A = ((\f b f (Y (\g f g))) (\f \g \h \i i g (h (d f))))
+B = (\b \d (C F A))
+P = (Y B (\c \d \e (C T (e c))))
+
 \a (C T (C T P))
