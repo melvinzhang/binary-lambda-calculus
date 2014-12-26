@@ -1,3 +1,8 @@
-M = (\b b (b ((\c c c) (\c \d \e e (\f \g g) ((\f c c f ((\g g g) (\g f (g g)))) (\f \g \h \i i g (h (d f))))) (\c \d \e b (e c)))))
-N = (\b \c c (\d \e d) b)
+T = (\t \f t)
+F = (\t \f f)
+U = (\c c c)
+B = (\c \d \e e (\f \g g) ((\f c c f (U (\g f (g g)))) (\f \g \h \i i g (h (d f)))))
+A = (U B (\c \d \e b (e c)))
+M = (\b b (b A))
+N = (\b \c c T b)
 \a M N 
