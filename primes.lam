@@ -4,7 +4,7 @@ C = (\a \b \z z a b)
 U = (\c c c)
 Y = (\f ((\x x x) (\x f (x x))))
 
-W = (\f b f (Y (\g f g)))
+W = (\x b x (Y (\g x g)))
 X = (\f \g \h \i i g (h (d f)))
 B = (\b \d (C F (W X)))
 D = (\c \_ \e (C T (e c)))
