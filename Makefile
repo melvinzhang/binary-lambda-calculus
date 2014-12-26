@@ -35,8 +35,8 @@ unid: uni.c
 hilbert:
 	(cat hilbert.Blc; echo -n 1024) | ./uni
 
-primes.dec:
-	(cat oddindices.Blc; echo -n " "; cat primes.blc | ./uni -b) | ./uni | head -c 70
+primes.dec: primes.blc
+	(cat oddindices.Blc; echo -n " "; cat $^ | ./uni -b) | ./uni | head -c 70
 
 primes.bin: primes.blc
 	cat $^ | ./uni -b | head -c 70
