@@ -1,0 +1,16 @@
+1 = (\t \f f)
+0 = (\t \f t)
+C = (\x \y \p p x y)
+B = (\a \b \c \d \e \f \g \h (C a (C b (C c (C d (C e (C f (C g (C h 1)))))))))
+Z = (\a \b \c \d \e \f \g \h (C a (C b (C c (C d (C e (C f (C g h))))))))
+
+H = (B 0 0 0 0 0 0 0 0)
+E = (B 0 0 0 0 0 0 0 0)
+L = (B 0 0 0 0 0 0 0 0)
+O = (B 0 0 0 0 0 0 0 0)
+W = (B 0 0 0 0 0 0 0 0)
+R = (B 0 0 0 0 0 0 0 0)
+D = (B 0 0 0 0 0 0 0 0)
+S = (B 0 0 0 0 0 0 0 0)
+
+\i (Z H E L L O S S i)
