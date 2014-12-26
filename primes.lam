@@ -5,7 +5,7 @@ U = (\c c c)
 Y = (\f ((\x x x) (\x f (x x))))
 
 W = (\x b x (Y (\g x g)))
-X = (\f \g \h \i i g (h (d f)))
+X = (\f \g \h (C g (h (d f))))
 B = (\b \d (C F (W X)))
 D = (\c \_ \e (C T (e c)))
 P = (Y B D)
