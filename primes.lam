@@ -1,8 +1,9 @@
 T = (\t \f t)
 F = (\t \f f)
+C = (\a \b \z z a b)
 U = (\c c c)
 B = (\c \d \e e (\f \g g) ((\f c c f (U (\g f (g g)))) (\f \g \h \i i g (h (d f)))))
 A = (U B (\c \d \e b (e c)))
-M = (\b b (b A))
+M = (\b b (C T A))
 N = (\b \c c T b)
 \a M N 
