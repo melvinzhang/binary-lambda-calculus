@@ -3,8 +3,8 @@
 C = (\a \b \z z a b)
 Y = (\f ((\x x x) (\x f (x x))))
 
-Z = (\c \_ \s (C 0 (s c)))
 O = (\c \x \s (C x (s c)))
+Z = (\c \_ \s (C 0 (s c)))
 S = (\r O (n r))
 F = (Y (\f S f))
 P = (\p \n (C 1 (p S F)))
