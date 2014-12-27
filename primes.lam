@@ -4,9 +4,9 @@ C = (\a \b \z z a b)
 Y = (\f ((\x x x) (\x f (x x))))
 
 Z = (\c \_ \s (C 0 (s c)))
-X = (\c \x \s (C x (s (n c))))
-F = (Y (\g n g))
-W = (\n p n F)
-P = (\p \n (C 1 (W X)))
+O = (\c \x \s (C x (s c)))
+S = (\r O (n r))
+F = (Y (\f S f))
+P = (\p \n (C 1 (p S F)))
 
 \_ (C 0 (C 0 (Y P Z)))
