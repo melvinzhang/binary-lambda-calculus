@@ -4,30 +4,52 @@
 //  http://www.nlda-tw.nl/janmartin/papers/jmjansenLambdapaper.pdf
 
 #define U (\x x x)
-#define O (U U)
-#define F (\t \f f)
-#define T (\t \f t)
+#define UU (U U)
+
+// data Boolean = True | False
+#define false (\t \f f)
+#define true (\t \f t)
 
 // data Nat = Zero | Suc Nat
 #define zero (\f \g f)
 #define suc  (\n \f \g g n)
-#define pred (\n n O (\m m))
+#define pred (\n n UU (\m m))
 
 // recursive functions
 //   add Zero m = m
 //   add (Suc n) m = Suc (add n m)
-#define add (\a \n \m n m (\n suc (a a n m)))
+#define add (\A \n \m n m (\n suc (A A n m)))
 
 // mutually recursive functions
 //   isOdd Zero = False
 //   isOdd (Suc n) = isEven n
 //   isEven Zero = True
 //   isEven (Suc n) = isOdd n
-#define isOdd  (\o \e \n n F (\n e o e n))
-#define isEven (\o \e \n n T (\n o o e n))
+#define isOdd  (\O \E \n n false (\n E O E n))
+#define isEven (\O \E \n n true (\n O O E n))
 
 // data List t = Nil | Cons t (List t)
 #define nil  (\f \g f)
-#define cons (\x \s \f \g g x s)
-#define head (\s s O (\x \s x))
-#define tail (\s s O (\x \s s))
+#define cons (\h \t \g g h t)
+#define head (\s s UU (\h \t h))
+#define tail (\s s UU (\h \t t))
+
+// Eratosthenes prime sieve
+// nat n = Cons n (nats (Suc n))
+#define nats (\N \n c n (N N (suc n)))
+
+// sieve (Cons Zero    xs) = sieve xs
+// sieve (Cons (Suc k) xs) = Cons (Suc k) (sieve (rem k k xs))
+#define sieve (\S \s s (\h \t h (S S t) (\k c h (S S (R R k k t)))))
+
+// rem p Zero    (Cons x xs) = Cons Zero (rem p p xs))
+// rem p (Suc k) (Cons x xs) = Cons x    (rem p k xs))
+#define rem (\R \p \k \s s (\h \t k (c z (R R p p t)) (\k c h (R R p k t))))
+
+(\z \s \c
+  (\R \N
+    (\S
+      S S (N N (s (s z))))))
+    sieve
+  rem nats
+zero suc cons
