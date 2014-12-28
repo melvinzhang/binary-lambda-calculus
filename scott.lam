@@ -1,10 +1,30 @@
+//reference:
+//  J.M. Jansen, R. Plasmeijer, and P. Koopman,
+//  Functional Pearl: Comprehensive Encoding of Data Types and Algorithms in the lambda-Calculus,
+//  http://www.nlda-tw.nl/janmartin/papers/jmjansenLambdapaper.pdf
+
 #define U (\x x x)
 #define O (U U)
+#define F (\t \f f)
+#define T (\t \f t)
 
 // data Nat = Zero | Suc Nat
 #define zero (\f \g f)
-#define succ (\n \f \g g n)
+#define suc (\n \f \g g n)
 #define pred (\n n O (\m m))
+
+// recursive functions
+//   add Zero m = m
+//   add (Suc n) m = Suc (add n m)
+#define add (\a \n \m n m (\n suc (a a n m)))
+
+// mutually recursive functions
+//   isOdd Zero = False
+//   isOdd (Suc n) = isEven n
+//   isEven Zero = True
+//   isEven (Suc n) = isOdd n
+#define isOdd (\o \e \n n F (\n e o e n))
+#define isEven (\o \e \n n T (\n o o e n))
 
 // data List t = Nil | Cons t (List t)
 #define nil (\f \g f)
