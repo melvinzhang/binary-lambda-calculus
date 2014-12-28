@@ -1,0 +1,13 @@
+#define U (\x x x)
+#define O (U U)
+
+// data Nat = Zero | Suc Nat
+#define zero (\f \g f)
+#define succ (\n \f \g g n)
+#define pred (\n n O (\m m))
+
+// data List t = Nil | Cons t (List t)
+#define nil (\f \g f)
+#define cons (\x \s \f \g g x s)
+#define head (\s s O (\x \s x))
+#define tail (\s s O (\x \s s))
