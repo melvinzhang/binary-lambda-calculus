@@ -10,7 +10,7 @@
 
 // data Nat = Zero | Suc Nat
 #define zero (\f \g f)
-#define suc (\n \f \g g n)
+#define suc  (\n \f \g g n)
 #define pred (\n n O (\m m))
 
 // recursive functions
@@ -23,11 +23,11 @@
 //   isOdd (Suc n) = isEven n
 //   isEven Zero = True
 //   isEven (Suc n) = isOdd n
-#define isOdd (\o \e \n n F (\n e o e n))
+#define isOdd  (\o \e \n n F (\n e o e n))
 #define isEven (\o \e \n n T (\n o o e n))
 
 // data List t = Nil | Cons t (List t)
-#define nil (\f \g f)
+#define nil  (\f \g f)
 #define cons (\x \s \f \g g x s)
 #define head (\s s O (\x \s x))
 #define tail (\s s O (\x \s s))
