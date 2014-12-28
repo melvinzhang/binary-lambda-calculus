@@ -12,8 +12,8 @@ unid: uni.c
 %.sym.lc: symbolic.Blc %.blc
 	cat $^ | ./uni | head -1 > $@
 
-%.lc: proc.awk %.lam
-	awk -f $^ > $@
+%.lc: %.lam
+	gcc -E -x c -P $^ > $@
 
 %.inf.blc: inflate.Blc %.Blc
 	cat $+ | ./uni > $@
