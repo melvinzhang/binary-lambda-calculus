@@ -1,5 +1,5 @@
-Y = (\f ((\x x x) (\x f (x x))))
-M = (e (\x b (c (\z \y x (\p p y z))) (e (\y c (\z x z (y z))))))
-N = (b (c (\z z b))(\s e (\x c (\z x (z b))) t))
-E = (\e \c \s s (\a \t \e \c t (\b a M N)) (e e) c)
-(\x x x)E
+#define U (\x x x)
+#define M (e (\x b (c (\z \y x (\p p y z))) (e (\y c (\z x z (y z))))))
+#define N (b (c (\z z b))(\s e (\x c (\z x (z b))) t))
+#define E (\e \c \s s (\a \t \e \c t (\b a M N)) (e e) c)
+U E
