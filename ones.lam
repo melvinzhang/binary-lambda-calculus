@@ -1,4 +1,4 @@
-1 = (\t\f f)
-U = (\x x x)
-A = (\a (\p p 1 (a a)))
+#define b1 (\t\f f)
+#define U (\x x x)
+#define A (\a (\p p b1 (a a)))
 \_ (U A)

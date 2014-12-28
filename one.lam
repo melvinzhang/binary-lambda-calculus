@@ -1,2 +1,2 @@
-F = (\t\f f)
-\a (\p p F F)
+#define b1 (\t\f f)
+\a (\p p b1 b1)

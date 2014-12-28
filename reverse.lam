@@ -1,6 +1,6 @@
-T = (\t \f t)
-F = (\t \f f)
-C = (\a \b \z z a b)
-Y = (\f ((\x x x) (\x f (x x))))
-R = (\m \p \q \n q m (C p n))
+#define T (\t \f t)
+#define F (\t \f f)
+#define C (\a \b \z z a b)
+#define Y (\f ((\x x x) (\x f (x x))))
+#define R (\m \p \q \n q m (C p n))
 \s s (Y R) F
