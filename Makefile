@@ -13,7 +13,7 @@ unid: uni.c
 	cat $^ | ./uni | head -1 > $@
 
 %.lc: %.lam
-	gcc -E -x c -P $^ > $@
+	gcc -E -x c -P $^ | awk -f rename.awk > $@
 
 %.inf.blc: inflate.Blc %.Blc
 	cat $+ | ./uni > $@
