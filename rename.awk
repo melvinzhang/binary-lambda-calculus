@@ -7,6 +7,7 @@ BEGIN {
     reserved[")"]
     l = 0
     c[l] = 97
+    new[l] = ""
 }
 
 {
