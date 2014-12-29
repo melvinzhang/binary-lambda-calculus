@@ -5,7 +5,8 @@ BEGIN {
     reserved["\\"]
     reserved["("]
     reserved[")"]
-    c = 97;
+    l = 0
+    c[l] = 97
 }
 
 {
@@ -20,12 +21,14 @@ BEGIN {
                 i++
             }
             if (!(v in map)) {
-                map[v] = c
-                if (c > 122) {
-                    print "|\\" v "|\nERROR: out of symbols" > "/dev/stderr"
+                map[v] = c[l]
+                new[l] = new[l] " " v
+                if (c[l] > 122) {
+                    print "|\\" v "|\n"
+                    print "ERROR: out of symbols" > "/dev/stderr"
                     exit 1
                 }
-                c++
+                c[l]++
             }
             printf("\\%c", map[v])
         } else if (!(tok[i] in reserved)) {
@@ -35,11 +38,25 @@ BEGIN {
                 i++
             }
             if (!(v in map)) {
-                print "|" v "|\nERROR: " v " undefined" > "/dev/stderr"
+                print "|" v "|\n"
+                print "ERROR: " v " undefined" > "/dev/stderr"
                 exit 1
             }
             printf("%c", map[v])
         } else {
+            if (tok[i] == "(") {
+                l++
+                c[l] = c[l-1]
+                new[l] = ""
+            } else if (tok[i] == ")") {
+                # clear mappings made in level l
+                split(new[l], source, " ");
+                slen = length(source);
+                for (j = 1; j <= slen; j++) {
+                    delete map[source[j]]
+                }
+                l--
+            }
             printf("%c", tok[i])
             i++
         }
