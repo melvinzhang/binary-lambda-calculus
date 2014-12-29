@@ -18,15 +18,15 @@
 // recursive functions
 //   add Zero m = m
 //   add (Suc n) m = Suc (add n m)
-#define add (\A \n \m n m (\n suc (A A n m)))
+#define add (\Add \n \m n m (\n Suc (Add Add n m)))
 
 // mutually recursive functions
 //   isOdd Zero = False
 //   isOdd (Suc n) = isEven n
 //   isEven Zero = True
 //   isEven (Suc n) = isOdd n
-#define isOdd  (\O \E \n n false (\n E O E n))
-#define isEven (\O \E \n n true (\n O O E n))
+#define isOdd  (\IsOdd \IsEven \n n false (\n IsEven IsOdd IsEven n))
+#define isEven (\IsOdd \IsEven \n n true  (\n IsOdd  IsOdd IsEven n))
 
 // data List t = Nil | Cons t (List t)
 #define nil  (\f \g f)
