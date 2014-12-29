@@ -36,20 +36,20 @@
 
 // Eratosthenes prime sieve
 // nat n = Cons n (nats (Suc n))
-#define nats (\N \n c n (N N (suc n)))
+#define nats (\Nats \n Cons n (Nats Nats (Suc n)))
 
 // sieve (Cons Zero    xs) = sieve xs
 // sieve (Cons (Suc k) xs) = Cons (Suc k) (sieve (rem k k xs))
-#define sieve (\S \s s (\h \t h (S S t) (\k c h (S S (R R k k t)))))
+#define sieve (\Sieve \s s (\h \t h (Sieve Sieve t) (\k Cons h (Sieve Sieve (Rem Rem k k t)))))
 
 // rem p Zero    (Cons x xs) = Cons Zero (rem p p xs))
 // rem p (Suc k) (Cons x xs) = Cons x    (rem p k xs))
-#define rem (\R \p \k \s s (\h \t k (c z (R R p p t)) (\k c h (R R p k t))))
+#define rem (\Rem \p \k \s s (\h \t k (Cons Zero (Rem Rem p p t)) (\k Cons h (Rem Rem p k t))))
 
-(\z \s \c
-  (\R \N
-    (\S
-      S S (N N (s (s z))))))
+(\Zero \Suc \Cons
+  (\Rem \Nats
+    (\Sieve
+      Sieve Sieve (Nats Nats (Suc (Suc Zero))))))
     sieve
   rem nats
 zero suc cons
