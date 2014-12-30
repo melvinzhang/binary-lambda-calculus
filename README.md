@@ -14,6 +14,9 @@ The objective of this project is to understand [John Tromp's 2012 IOCCC entry](h
     * sort
     * symbolic
     * parse
+    * oddindices
+    * inflate
+    * deflate
 
 # Usage
 uni is an interpreter for binary lambda calculus based on the Krivine machine.
