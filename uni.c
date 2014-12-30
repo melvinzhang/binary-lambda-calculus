@@ -294,6 +294,9 @@ int main(int argc, char **argv) {
             }
             d(old);
 
+            //call-by-need optimization, based on the L machine defined in
+            //http://www.cs.indiana.edu/ftp/techreports/TR581.pdf
+
             //mark env to be updated to point to normal form
             if (opt && (T[t] == A || T[t] == V) && env->r > 0) {
                 log("OPT MARK %d\n", t);
