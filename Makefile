@@ -62,21 +62,10 @@ test_opt: uni unid
 	(cat hilbert.Blc; echo -n 12) | ./unid -o 2> debug.opt
 
 bench_uni: uni1.blc primes.blc uni
-	@cat primes.blc | ./uni -b | head -c 70
-	@echo
-	@cat uni1.blc primes.blc | ./uni -b | head -c 70
-	@echo
-	@cat uni1.blc uni1.blc primes.blc | ./uni -b | head -c 70
-	@echo
-	@cat uni1.blc uni1.blc uni1.blc primes.blc | ./uni -b | head -c 70
+	@cat uni1.blc uni1.blc uni1.blc uni1.blc primes.blc | ./uni -b | head -c 70
 	@echo
 
+
 bench_opt: uni1.blc primes.blc uni
-	@cat primes.blc | ./uni -b -o | head -c 70
-	@echo
-	@cat uni1.blc primes.blc | ./uni -b -o | head -c 70
-	@echo
-	@cat uni1.blc uni1.blc primes.blc | ./uni -b -o | head -c 70
-	@echo
-	@cat uni1.blc uni1.blc uni1.blc primes.blc | ./uni -b -o | head -c 70
+	@cat uni1.blc uni1.blc uni1.blc uni1.blc primes.blc | ./uni -b -o | head -c 70
 	@echo
