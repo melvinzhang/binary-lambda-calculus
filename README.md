@@ -1,4 +1,4 @@
-The objective of this project is to understand [John Trom's 2012 IOCCC entry](http://www.ioccc.org/2012/tromp/hint.html).
+The objective of this project is to understand [John Tromp's 2012 IOCCC entry](http://www.ioccc.org/2012/tromp/hint.html).
 
 # Progress
 
