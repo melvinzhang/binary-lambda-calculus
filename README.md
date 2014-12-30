@@ -2,7 +2,7 @@ The objective of this project is to understand [John Trom's 2012 IOCCC entry](ht
 
 # Progress
 
-1. ~~Refactor and understand the C interpreter from [](https://tromp.github.io/cl/uni.c)~~
+1. ~~Refactor and understand the C interpreter from https://tromp.github.io/cl/uni.c~~
 2. ~~Add call-by-need optimization to the interpreter~~
 3. Refactor and understand the following programs:
     * ~~reverse~~
