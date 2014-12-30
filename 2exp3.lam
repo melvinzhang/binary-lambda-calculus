@@ -1,0 +1,3 @@
+#define two (\f\x f (f x))
+#define three (\f\x f (f (f x)))
+(three two)

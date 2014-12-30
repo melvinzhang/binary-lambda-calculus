@@ -44,6 +44,9 @@ primes.bin: primes.blc
 hw_in_bf: bf.Blc hw.bf
 	cat $^ | ./uni
 
+reduction: symbolic.Blc 2exp3.blc
+	cat $^ | ./uni
+
 trace.b: id.blc unid
 	(cat $<; echo -n 10) | ./unid -b 2> $@
 
