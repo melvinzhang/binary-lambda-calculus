@@ -315,12 +315,19 @@ int main(int argc, char **argv) {
             while (opt && s && s->t == 0) {
                 C* marker = pop(&s);
                 C* env = marker->e;
-                int old_t = env->t;
-                env->e->r--;
+
+                //decrement reference created when marker is created
                 env->r--;
+
+                //update env->t
+                int old_t = env->t;
                 env->t = t;
+
+                //update env->e and correct reference count
+                env->e->r--;
                 env->e = e;
-                e->r++;
+                env->e->r++;
+
                 push(&freel, marker);
                 log("OPT UPDATE %p %d->%d\n", env, old_t, env->t);
             }
