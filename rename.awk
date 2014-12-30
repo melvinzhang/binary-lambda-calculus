@@ -11,8 +11,7 @@ BEGIN {
 }
 
 {
-    split($0, tok, "")
-    len = length(tok)
+    len = split($0, tok, "")
     for (i = 1; i <= len;) {
         if (tok[i] == "\\") {
             i++
@@ -51,8 +50,7 @@ BEGIN {
                 new[l] = ""
             } else if (tok[i] == ")") {
                 # clear mappings made in level l
-                split(new[l], source, " ");
-                slen = length(source);
+                slen = split(new[l], source, " ");
                 for (j = 1; j <= slen; j++) {
                     delete map[source[j]]
                 }
