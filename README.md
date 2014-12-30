@@ -23,4 +23,4 @@ program, and output the result to the standard output.
 It supports the following options:
 
 * -b: binary mode
-* -o: enable call-by-need optimization, based on the L machine defined in http://www.cs.indiana.edu/ftp/techreports/TR581.pdf
+* -o: enable call-by-need optimization
