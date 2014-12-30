@@ -124,13 +124,11 @@ C* pop(C** top) {
 
 //decrease reference counter, add record to free list on reaching zero
 void d(C *l) {
-    if (l) {
-        l->r--;
-        if (l->r == 0) {
-            d(l->e);
-            d(l->n);
-            push(&freel, l);
-        }
+    l->r--;
+    if (l->r == 0) {
+        d(l->e);
+        d(l->n);
+        push(&freel, l);
     }
 }
 
@@ -194,9 +192,7 @@ C* newC(int ar, int at, C* ae) {
     l->r=ar;
     l->t=at;
     l->e=ae;
-    if (ae) {
-        ae->r++;
-    }
+    ae->r++;
     return l;
 }
 
@@ -233,6 +229,9 @@ int main(int argc, char **argv) {
 
     // clear bits left
     left=0;
+
+    // set initial environment as {0,0,0}
+    e = calloc(1,sizeof(C));
 
     while(1) {
         //logp(showL(freel, "F"));
@@ -289,16 +288,14 @@ int main(int argc, char **argv) {
             for(int j=index; j--; env=env->n);
             t=env->t;
             e=env->e;
-            if (e) {
-                e->r++;
-            }
+            e->r++;
             d(old);
 
             //call-by-need optimization, based on the L machine defined in
             //http://www.cs.indiana.edu/ftp/techreports/TR581.pdf
 
             //mark env to be updated to point to normal form
-            if (opt && (T[t] == A || T[t] == V) && env->r > 0 && e && e->r > 2) {
+            if (opt && (T[t] == A || T[t] == V) && env->r > 0 && e->r > 2) {
                 log("OPT MARK %d\n", t);
                 push(&s, newC(0, 0, env));
             }
@@ -319,16 +316,11 @@ int main(int argc, char **argv) {
                 C* marker = pop(&s);
                 C* env = marker->e;
                 int old_t = env->t;
-                C* old_e = env->e;
-                if (old_e) {
-                    old_e->r--;
-                }
+                env->e->r--;
                 env->r--;
                 env->t = t;
                 env->e = e;
-                if (e) {
-                    e->r++;
-                }
+                e->r++;
                 push(&freel, marker);
                 log("OPT UPDATE %p %d->%d\n", env, old_t, env->t);
             }
