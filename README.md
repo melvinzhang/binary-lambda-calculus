@@ -13,13 +13,11 @@ The objective of this project is to understand [John Tromp's 2012 IOCCC entry](h
     * [primes](primes.lam)
     * [uni8](uni8.lam)
     * [bf](bf.lam)
-    * hilbert
-    * sort
-    * symbolic
-    * parse
-    * oddindices
-    * inflate
-    * deflate
+    * [hilbert](hilbert.lam)
+    * [sort](sort.lam)
+    * [oddindices](oddindices.lam)
+    * [inflate](inflate.lam)
+    * [deflate](deflate.lam)
 
 # Usage
 uni is an interpreter for binary lambda calculus based on the Krivine machine.
