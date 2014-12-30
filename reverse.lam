@@ -1,6 +1,18 @@
-#define T (\t \f t)
-#define F (\t \f f)
-#define C (\a \b \z z a b)
+#define Nil (\t \f f)
+#define Cons (\a \b \z z a b)
 #define Y (\f ((\x x x) (\x f (x x))))
-#define R (\m \p \q \n q m (C p n))
-\s s (Y R) F
+#define Reverse (\reverse \x \xs \acc xs reverse (Cons x acc))
+
+/*
+Given the non-empty list s, s M N reduces to M x xs N where s = \z x xs and
+for the empty list Nil, Nil M N reduces to N.
+
+Hence, Reverse is a function that takes in four parameters
+  reverse: itself
+  x: first element of the input
+  xs: rest of the input
+  acc: accumulator to store the result
+and it works by prepending x to acc, where acc is initially the empty list, Nil
+*/
+
+\s s (Y Reverse) Nil
