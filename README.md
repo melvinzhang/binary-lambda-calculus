@@ -26,5 +26,6 @@ program, and output the result to the standard output.
 
 It supports the following options:
 
+* -B: byte mode (default)
 * -b: binary mode
 * -o: enable call-by-need optimization
