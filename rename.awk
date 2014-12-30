@@ -14,6 +14,7 @@ BEGIN {
     len = split($0, tok, "")
     for (i = 1; i <= len;) {
         if (tok[i] == "\\") {
+            s = i
             i++
             v = ""
             while (!(tok[i] in reserved) && i <= len) {
@@ -24,22 +25,23 @@ BEGIN {
                 map[v] = c[l]
                 new[l] = new[l] " " v
                 if (c[l] > 122) {
-                    print "|\\" v "|\n"
-                    print "ERROR: out of symbols" > "/dev/stderr"
+                    printf("\nrename:%d: %s|\\%s|\n", NR, substr($0, 0, s-1), v) > "/dev/stderr"
+                    printf("ERROR: out of symbols\n") > "/dev/stderr"
                     exit 1
                 }
                 c[l]++
             }
             printf("\\%c", map[v])
         } else if (!(tok[i] in reserved)) {
+            s = i
             v = ""
             while (!(tok[i] in reserved) && i <= len) {
                 v = v tok[i]
                 i++
             }
             if (!(v in map)) {
-                print "|" v "|\n"
-                print "ERROR: " v " undefined" > "/dev/stderr"
+                printf("\nrename:%d: %s|%s|\n", NR, substr($0, 0, s-1), v) > "/dev/stderr"
+                printf("ERROR: %s undefined\n", v) > "/dev/stderr"
                 exit 1
             }
             printf("%c", map[v])
