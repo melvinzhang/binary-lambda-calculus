@@ -1,5 +1,5 @@
 uni: uni.c
-	gcc -std=c99 -DM=1000000 $^ -o $@
+	gcc -std=c99 -O3 -DM=1000000 $^ -o $@
 
 uni.pg: uni.c
 	gcc -std=c99 -DM=1000000 -pg $^ -o $@
