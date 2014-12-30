@@ -5,14 +5,14 @@ The objective of this project is to understand [John Tromp's 2012 IOCCC entry](h
 * Refactor and understand the C interpreter from https://tromp.github.io/cl/uni.c
 * Add call-by-need optimization to the interpreter
 * Refactor and understand the following programs:
-    * [reverse](blob/master/reverse.lam)
+    * [reverse](reverse.lam)
 
 # Todo
 * Refactor and understand the following programs:
-    * [uni](blob/master/uni232.lam)
-    * [primes](blob/master/primes.lam)
-    * [uni8](blob/master/uni8.lam)
-    * [bf](blob/master/bf.lam)
+    * [uni](uni232.lam)
+    * [primes](primes.lam)
+    * [uni8](uni8.lam)
+    * [bf](bf.lam)
     * hilbert
     * sort
     * symbolic
