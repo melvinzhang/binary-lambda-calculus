@@ -9,19 +9,19 @@ unid: uni.c
 
 # lam -> lc -> blc -> Blc
 
-%.sym.lc: symbolic.Blc %.blc
+%.sym.lc: ioccc/symbolic.Blc %.blc
 	cat $^ | ./uni | head -1 > $@
 
 %.lc: %.lam
 	gcc -E -x c -P $^ | awk -f rename.awk > $@
 
-%.inf.blc: inflate.Blc %.Blc
+%.inf.blc: ioccc/inflate.Blc %.Blc
 	cat $+ | ./uni > $@
 
-%.blc: parse.Blc %.lc
+%.blc: ioccc/parse.Blc %.lc
 	cat $^ | ./uni > $@
 
-%.Blc: deflate.Blc %.blc
+%.Blc: ioccc/deflate.Blc %.blc
 	cat $^ | ./uni > $@
 
 %.b: %.blc
