@@ -49,7 +49,7 @@
 (\Zero \Suc \Cons
   (\Rem \Nats
     (\Sieve
-      Sieve Sieve (Nats Nats (Suc (Suc Zero)))
-    ) sieve
-  ) rem nats
-) zero suc cons
+      Sieve Sieve (Nats Nats (Suc (Suc Zero))))
+    sieve)
+  rem nats)
+zero suc cons
