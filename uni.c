@@ -298,7 +298,7 @@ int main(int argc, char **argv) {
             //http://www.cs.indiana.edu/ftp/techreports/TR581.pdf
 
             //mark env to be updated to point to normal form
-            if (opt && (T[t] == A || T[t] == V) && env->r > 0) {
+            if (opt && (T[t] == A || T[t] == V) && env->r > 0 && e && e->r > 3) {
                 log("OPT MARK %d\n", t);
                 push(&s, newC(0, 0, env));
             }
