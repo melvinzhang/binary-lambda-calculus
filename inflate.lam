@@ -6,9 +6,11 @@
 #define U (\x x x)
 #define Id (\x x)
 
-#define R (\c a (a (b (b (a (a (a (\d d c Nil))))))))
-#define Q (\d \e e (\f \g \h f (U (\i \j \k \l \m m (c j) (k (i i) l))) (d d g)) e)
-#define P (\b (\c U Q) R)
 #define Cons0 (\a \b b b0 a)
 #define Cons1 (\a \b b b1 a)
-(\a P Cons1) Cons0
+
+#define R (\c cons0 (cons0 (cons1 (cons1 (cons0 (cons0 (cons0 (\d d c Nil))))))))
+#define Q (\d \e e (\f \g \h f (U (\i \j \k \l \m m (c j) (k (i i) l))) (d d g)) e)
+#define P (\cons1 (\c U Q) R)
+
+(\cons0 P Cons1) Cons0
