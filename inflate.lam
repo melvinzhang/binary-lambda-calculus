@@ -1,1 +1,14 @@
-(\a (\b (\c (\d d d) (\d \e e (\f \g \h f ((\i i i) (\i \j \k \l \m m (c j) (k (i i) l))) (d d g)) e)) (\c a (a (b (b (a (a (a (\d d c (\e \f f)))))))))) (\b \c c (\d \e e) b)) (\a \b b (\c \d c) a)
+#define True (\t \f t)
+#define False (\t \f f)
+#define b0 True
+#define b1 False
+#define Nil False
+#define U (\x x x)
+#define Id (\x x)
+
+#define R (\c a (a (b (b (a (a (a (\d d c Nil))))))))
+#define Q (\d \e e (\f \g \h f (U (\i \j \k \l \m m (c j) (k (i i) l))) (d d g)) e)
+#define P (\b (\c U Q) R)
+#define Cons0 (\a \b b b0 a)
+#define Cons1 (\a \b b b1 a)
+(\a P Cons1) Cons0
