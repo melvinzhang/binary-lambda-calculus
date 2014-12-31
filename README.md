@@ -6,6 +6,7 @@ The objective of this project is to understand [John Tromp's 2012 IOCCC entry](h
 * Add call-by-need optimization to the interpreter
 * Refactor and understand the following programs:
     * [reverse](reverse.lam)
+    * [inflate](inflate.lam)
 
 # Todo
 * Refactor and understand the following programs:
@@ -16,7 +17,6 @@ The objective of this project is to understand [John Tromp's 2012 IOCCC entry](h
     * [hilbert](hilbert.lam)
     * [sort](sort.lam)
     * [oddindices](oddindices.lam)
-    * [inflate](inflate.lam)
     * [deflate](deflate.lam)
     * [parse](parse.lam)
 
