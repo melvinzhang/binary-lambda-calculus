@@ -12,7 +12,7 @@
 #define G (\f \g \h h (f b1) (b b g))
 #define F (\f \g \h I (\i f (\j g (\k k i j))))
 #define D (\d \e eight F G Id)
-#define B (\b \c c D c)
+#define B (\b \bytes bytes D bytes)
 #define Eight ((\a \b a (a (a b))) (\a \b a (a b)))
 
 (\eight U B) Eight
