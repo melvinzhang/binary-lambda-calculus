@@ -8,8 +8,14 @@
 
 #define Cons0 (\a \b b b0 a)
 #define Cons1 (\a \b b b1 a)
+#define Char (\c cons0 (cons0 (cons1 (cons1 (cons0 (cons0 (cons0 (\d d c Nil))))))))
 
-#define R (\c cons0 (cons0 (cons1 (cons1 (cons0 (cons0 (cons0 (\d d c Nil))))))))
-#define Q (\d \e e (\f \g \h f (U (\i \j \k \l \m m (c j) (k (i i) l))) (d d g)) e)
+#define InflateByte (\f \x \xs \acc \z z (char x) (xs (f f) acc))
+#define InflateBytes (\f \bytes bytes (\x \xs \_ x (U InflateByte) (f f xs)) bytes)
 
-(\cons0 (\cons1 (\c U Q) R) Cons1) Cons0
+(\cons0
+  (\cons1
+    (\char U InflateBytes)
+    Char)
+  Cons1)
+Cons0
