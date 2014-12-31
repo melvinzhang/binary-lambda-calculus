@@ -14,7 +14,6 @@ The objective of this project is to understand [John Tromp's 2012 IOCCC entry](h
     * [primes](primes.lam)
     * [uni8](uni8.lam)
     * [bf](bf.lam)
-    * [hilbert](hilbert.lam)
     * [sort](sort.lam)
     * [oddindices](oddindices.lam)
     * [deflate](deflate.lam)
