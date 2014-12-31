@@ -9,10 +9,10 @@
 #define L (eight (\m \_ \o o m) b0 Id j)
 #define J (\j \k \_ i L k)
 #define I (\i h J (i b0 h))
-#define G (\f \g \h h (f b1) (b b g))
+#define G (\f \g \h h (f b1) (deflate deflate g))
 #define F (\f \g \h I (\i f (\j g (\k k i j))))
 #define D (\_ \_ eight F G Id)
-#define B (\b \bytes bytes D bytes)
+#define Deflate (\deflate \bytes bytes D bytes)
 #define Eight ((\a \b a (a (a b))) (\a \b a (a b)))
 
-(\eight U B) Eight
+(\eight U Deflate) Eight
