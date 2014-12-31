@@ -11,6 +11,5 @@
 
 #define R (\c cons0 (cons0 (cons1 (cons1 (cons0 (cons0 (cons0 (\d d c Nil))))))))
 #define Q (\d \e e (\f \g \h f (U (\i \j \k \l \m m (c j) (k (i i) l))) (d d g)) e)
-#define P (\cons1 (\c U Q) R)
 
-(\cons0 P Cons1) Cons0
+(\cons0 (\cons1 (\c U Q) R) Cons1) Cons0
