@@ -4,7 +4,6 @@
 #define b1 False
 #define Nil False
 #define U (\x x x)
-#define Id (\x x)
 
 #define Cons0 (\a \b b b0 a)
 #define Cons1 (\a \b b b1 a)
