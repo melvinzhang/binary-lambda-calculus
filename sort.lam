@@ -1,1 +1,19 @@
-\a (\b b b) (\b (\c \d \e e (\f \g (\h h h) (\h \i i (\j \k \l h h k (\m j (\n \o \p \q \r \s s m (n (\t t o q) q) (n r (\t t o r))) (\n \o \p p (\q \r m q (\s s q r)) n o))) (\j (\k j k k k) (\k \l l))) e (\h \i \j \k h (d (\l \m m)) (c (\l d (\m m (\n \o n) l)) i (c (\l d (\m m (\n \o o) l)) j k))))) (b b)) (\b b) a (\b \c c)
+#define True (\t \f t)
+#define False (\t \f f)
+#define b0 True
+#define b1 False
+#define Nil False
+#define U (\x x x)
+#define Id (\x x)
+
+#define N1 (\n \o \p \q \r \s s m (n (\t t o q) q) (n r (\t t o r)))
+#define N2 (\n \o \p p (\q \r m q (\s s q r)) n o)
+#define M (\m j N1 N2)
+#define J (\j \k \l h h k M)
+#define H2 (\h \i \j \k h (d False) (c (\l d (\m m True l)) i (c (\l d (\m m False l)) j k)))
+#define H1 (\h \i i J (\j (\k j k k k) False))
+#define F (\f \g U H1 e H2)
+#define C (\c \d \e e F)
+#define B (\b C (b b))
+
+\a U B Id a False
