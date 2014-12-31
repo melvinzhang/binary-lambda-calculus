@@ -22,7 +22,10 @@
 #define G (\g H (\h \i \j \k k d (\l l e (h (i j)))))
 #define F (\f G (\g \h \i i d (\j j d (g h))))
 #define E (\e F (U X))
+
+//(c b1) is the list representing char '1'
 #define D (\d E (c b1))
+//(c b0) is the list representing char '0'
 #define C (\c D (c b0))
 #define B (\b C (\c a (a (b (b (a (a (a (\d d c Nil)))))))))
 (\a B (\b \c c b1 b)) (\a \b b b0 a)
