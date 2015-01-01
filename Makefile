@@ -27,14 +27,6 @@ unid: uni.c
 %.blc2: encode.scm %.lam
 	gcc -E -x c -P $(word 2,$^) | guile $(word 1,$^) > $@
 
-%.parse: %.blc %.blc2
-	diff $*.blc $*.blc2
-
-%.decode: %.blc %.dec.lc
-	cat $(word 2,$^) | guile encode.scm > $*.decode
-	diff $(word 1,$^) $*.decode
-	rm $*.decode $*.blc
-
 %.Blc: ioccc/deflate.Blc %.blc
 	cat $^ | ./uni > $@
 
@@ -77,6 +69,20 @@ test_opt: uni unid
 	@echo
 	(cat hilbert.Blc; echo -n 12) | ./unid 2> debug.orig
 	(cat hilbert.Blc; echo -n 12) | ./unid -o 2> debug.opt
+
+%.encode: %.blc %.blc2
+	diff $*.blc $*.blc2
+
+test_encode:
+	for i in *.lam; do make `basename $$i .lam`.encode; done
+
+%.decode: %.blc %.dec.lc
+	cat $(word 2,$^) | guile encode.scm > $*.decode
+	diff $(word 1,$^) $*.decode
+	rm $*.decode $*.blc
+
+test_decode:
+	for i in *.lam; do make `basename $$i .lam`.decode; done
 
 bench:
 	/usr/bin/time -v make bench_uni
