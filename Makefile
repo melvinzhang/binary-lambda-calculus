@@ -21,8 +21,8 @@ unid: uni.c
 %.blc: ioccc/parse.Blc %.lc
 	cat $^ | ./uni > $@
 
-%.blc2: parse.scm %.lc
-	cat $(word 2,$^) | guile $(word 1,$^) > $@
+%.blc2: parse.scm %.lam
+	gcc -E -x c -P $(word 2,$^) | guile $(word 1,$^) > $@
 
 %.parse: %.blc %.blc2
 	diff $*.blc $*.blc2
