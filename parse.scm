@@ -38,10 +38,9 @@
   (compile (cdr e) (cons (cons (lambda->symbol (car e)) (length env)) env)))
 
 (define (compile-app e env)
-  (let ((k (- (length e) 1)))
-    (display "01") 
-    (compile (list-head e k) env) 
-    (compile (list-tail e k) env)))
+  (display "01")
+  (compile (reverse (cdr (reverse e))) env)
+  (compile (list (car (reverse e))) env))
 
 (define (compile-var v env)
   (display-index (- (length env) (cdr (assq v env)))))
