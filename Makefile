@@ -24,14 +24,14 @@ unid: uni.c
 %.blc: ioccc/parse.Blc %.lc
 	cat $^ | ./uni > $@
 
-%.blc2: parse.scm %.lam
+%.blc2: encode.scm %.lam
 	gcc -E -x c -P $(word 2,$^) | guile $(word 1,$^) > $@
 
 %.parse: %.blc %.blc2
 	diff $*.blc $*.blc2
 
 %.decode: %.blc %.dec.lc
-	cat $(word 2,$^) | guile parse.scm > $*.decode
+	cat $(word 2,$^) | guile encode.scm > $*.decode
 	diff $(word 1,$^) $*.decode
 	rm $*.decode
 
