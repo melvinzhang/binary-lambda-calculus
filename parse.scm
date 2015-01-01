@@ -1,3 +1,6 @@
+#!/usr/bin/env guile
+!#
+
 (use-modules (srfi srfi-1))
 
 ; compile takes an expression and an environment and returns the BLC
