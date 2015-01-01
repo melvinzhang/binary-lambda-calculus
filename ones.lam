@@ -1,4 +1,4 @@
-#define b1 (\t\f f)
+#define b1 (\t \f f)
 #define U (\x x x)
 #define A (\a (\p p b1 (a a)))
 \_ (U A)
