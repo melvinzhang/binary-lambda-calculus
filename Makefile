@@ -62,7 +62,7 @@ trace.B: id.Blc unid
 debug: test.blc unid
 	(cat $<; echo -n 10) | ./unid -b 2> $@
 
-test_opt: uni unid
+test_opt: uni unid primes.blc
 	(cat oddindices.Blc; echo -n " "; cat primes.blc | ./uni -b) | ./uni | head -c 70
 	@echo
 	(cat oddindices.Blc; echo -n " "; cat primes.blc | ./uni -b -o) | ./uni -o | head -c 70
