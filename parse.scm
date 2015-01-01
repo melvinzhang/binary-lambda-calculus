@@ -1,8 +1,6 @@
 #!/usr/bin/env guile
 !#
 
-(use-modules (srfi srfi-1))
-
 ; compile takes an expression and an environment and returns the BLC
 (define (lambda? s)
   (and (symbol? s) (string-prefix? "\\" (symbol->string s))))
@@ -37,10 +35,13 @@
 
 (define (compile-lambda e env)
   (display "00") 
-  (compile (cdr e) (acons (lambda->symbol (car e)) (length env) env)))
+  (compile (cdr e) (cons (cons (lambda->symbol (car e)) (length env)) env)))
 
 (define (compile-app e env)
-  (display "01") (compile (take e (- (length e) 1)) env) (compile (drop e (- (length e) 1)) env))
+  (let ((k (- (length e) 1)))
+    (display "01") 
+    (compile (list-head e k) env) 
+    (compile (list-tail e k) env)))
 
 (define (compile-var v env)
   (display-index (- (length env) (cdr (assq v env)))))
