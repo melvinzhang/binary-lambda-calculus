@@ -1,7 +1,6 @@
 #!/usr/bin/env guile
 !#
 
-; compile takes an expression and an environment and returns the BLC
 (define (lambda? s)
   (and (symbol? s) (char=? #\\ (car (string->list (symbol->string s))))))
 
@@ -13,7 +12,7 @@
     ((zero? i) (display "0"))
     (else (display "1") (display-index (- i 1)))))
 
-;(define (compile e env) (lambda? (car e)))
+; compile takes an expression and an environment and output the BLC to stdout
 (define (compile e env) 
   ;(newline)
   ;(display "e  : ")
@@ -23,7 +22,7 @@
   ;(display env)
   ;(newline)
   (cond
-    ((null? e) #f)
+    ((null? e) #t)
     ((lambda? (car e)) 
        (compile-lambda e env))
     ((> (length e) 1)
@@ -51,5 +50,5 @@
       ((eof-object? expr) '())
       (else (cons expr (read-all))))))
 
-; read and parse stdin, then compile
+; read stdin, then compile
 (compile (read-all) '())
