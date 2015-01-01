@@ -12,7 +12,7 @@
 
 (define (display-index i)
   (cond
-    ((eq? i 0) (display "0"))
+    ((zero? i) (display "0"))
     (else (display "1") (display-index (- i 1)))))
 
 ;(define (compile e env) (lambda? (car e)))
