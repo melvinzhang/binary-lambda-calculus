@@ -3,7 +3,7 @@
 
 ; compile takes an expression and an environment and returns the BLC
 (define (lambda? s)
-  (and (symbol? s) (string-prefix? "\\" (symbol->string s))))
+  (and (symbol? s) (char=? #\\ (car (string->list (symbol->string s))))))
 
 (define (lambda->symbol l)
   (string->symbol (substring (symbol->string l) 1)))
