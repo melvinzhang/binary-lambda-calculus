@@ -24,13 +24,26 @@
   ;(display "env: ")
   ;(display env)
   ;(newline)
-  
   (cond
-  ((null? e) #f)
-  ((lambda? (car e)) (display "00") (compile (cdr e) (acons (lambda->symbol (car e)) (length env) env)))
-  ((and (eq? (length e) 1) (symbol? (car e))) (display-index (- (length env) (cdr (assq (car e) env)))))
-  ((and (list? e) (eq? (length e) 1)) (compile (car e) env))
-  (else              (display "01") (compile (take e (- (length e) 1)) env) (compile (drop e (- (length e) 1)) env))))
+    ((null? e) #f)
+    ((lambda? (car e)) 
+       (compile-lambda e env))
+    ((> (length e) 1)
+       (compile-app e env))
+    ((symbol? (car e)) 
+       (compile-var (car e) env))
+    (else
+       (compile (car e) env))))
+
+(define (compile-lambda e env)
+  (display "00") 
+  (compile (cdr e) (acons (lambda->symbol (car e)) (length env) env)))
+
+(define (compile-app e env)
+  (display "01") (compile (take e (- (length e) 1)) env) (compile (drop e (- (length e) 1)) env))
+
+(define (compile-var v env)
+  (display-index (- (length env) (cdr (assq v env)))))
 
 (define (read-all)
   (let ((expr (read)))
