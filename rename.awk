@@ -24,7 +24,7 @@ BEGIN {
             if (!(v in map)) {
                 map[v] = c[l]
                 new[l] = new[l] " " v
-                if (c[l] > 122) {
+                if (c[l] > 127) {
                     printf("\nrename:%d: %s|\\%s|\n", NR, substr($0, 0, s-1), v) > "/dev/stderr"
                     printf("ERROR: out of symbols\n") > "/dev/stderr"
                     exit 1
