@@ -33,7 +33,7 @@ unid: uni.c
 %.decode: %.blc %.dec.lc
 	cat $(word 2,$^) | guile encode.scm > $*.decode
 	diff $(word 1,$^) $*.decode
-	rm $*.decode
+	rm $*.decode $*.blc
 
 %.Blc: ioccc/deflate.Blc %.blc
 	cat $^ | ./uni > $@
