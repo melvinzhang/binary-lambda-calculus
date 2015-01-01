@@ -12,6 +12,9 @@ unid: uni.c
 %.sym.lc: ioccc/symbolic.Blc %.blc
 	cat $^ | ./uni | head -1 > $@
 
+%.dec.lc: decode.scm %.blc
+	cat $(word 2,$^) | guile $(word 1,$^) > $@
+
 %.lc: %.lam
 	gcc -E -x c -P $^ | awk -f rename.awk > $@
 
@@ -26,6 +29,11 @@ unid: uni.c
 
 %.parse: %.blc %.blc2
 	diff $*.blc $*.blc2
+
+%.decode: %.blc %.dec.lc
+	cat $(word 2,$^) | guile parse.scm > $*.decode
+	diff $(word 1,$^) $*.decode
+	rm $*.decode
 
 %.Blc: ioccc/deflate.Blc %.blc
 	cat $^ | ./uni > $@
