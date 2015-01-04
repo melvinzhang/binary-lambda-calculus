@@ -61,6 +61,13 @@ int T[M]= {
 //     V
   A,14,L,A,2,V,0,L,A,5,A,2,  V,0,O0,O1,A
 };
+
+// byte mode term
+// (\output output (\B B (\b b O0 O1) OB)) (P input)
+
+// bit mode term
+// (\output output (\b b O0 O1)) (P input)
+
 // end of T
 int n = 44;
 
