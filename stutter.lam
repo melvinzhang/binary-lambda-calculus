@@ -4,6 +4,6 @@
 */
 
 #define U (\x x x)
-#define Stutter (\stutter \input input (\c \r \d \z z c (\z z c (stutter stutter r))) input)
+#define Stutter (\stutter \x \xs (\z z x (\z z x (xs (stutter stutter)))))
 
-U Stutter
+\input input (U Stutter)
