@@ -1,0 +1,9 @@
+/* repeats each input character twice
+   10  -> 1100
+   abc -> aabbcc
+*/
+
+#define U (\x x x)
+#define Stutter (\stutter \input input (\c \r \d \z z c (\z z c (stutter stutter r))) input)
+
+U Stutter
