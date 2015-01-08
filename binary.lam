@@ -7,6 +7,7 @@
 #define C (\x \y \p p x y)
 #define Zero (C b0 (C b0 (C b0 (C b0 (C b0 (C b0 (C b0 (C b0 Nil))))))))
 #define AddBit (\x \y y (C x b0) (x (C b1 b0) (C b0 b1)))
+#define AddBitC ((\addbit \x \y \c c (addbit x y) (x (addbit y c) (y (addbit x c) (C b1 b1)))) AddBit)
 #define SuccR \
   (\self \x \xs \acc                       \
     (\r                                    \
@@ -14,4 +15,11 @@
       (AddBit x (r Snd)))                  \
     (xs (self self) acc))
 #define Succ (\n (\succr n (succr succr) (C Nil b1)) SuccR Fst)
-\input (C (Succ (Succ Zero)) Nil)
+#define AddByteR \
+  (\self \x \xs \y \ys \acc                \
+    (\r                                    \
+      (\f (C (C (f Fst) (r Fst)) (f Snd))) \
+      (AddBitC x y (r Snd)))               \
+    (ys (xs (self self)) acc))
+#define AddByte (\x \y (\addbyter y (x (addbyter addbyter)) (C Nil b0)) AddByteR Fst)
+\input (AddByte (Succ Zero) (Succ Zero))
