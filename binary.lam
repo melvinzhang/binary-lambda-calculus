@@ -22,4 +22,6 @@
       (AddBitC x y (r Snd)))               \
     (ys (xs (self self)) acc))
 #define AddByte (\x \y (\addbyter y (x (addbyter addbyter)) (C Nil b0)) AddByteR Fst)
-\input (AddByte (Succ Zero) (Succ Zero))
+#define AddBytesR (\self \x \xs \acc (AddByte x (xs (self self) acc)))
+#define AddBytes (\xs (\addbytesr xs (addbytesr addbytesr) Zero) AddBytesR)
+\input (C (AddBytes input) Nil)
