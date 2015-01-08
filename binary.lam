@@ -8,11 +8,11 @@
 #define Zero (C b0 (C b0 (C b0 (C b0 (C b0 (C b0 (C b0 (C b0 Nil))))))))
 #define OneB (C b0 (C b0 (C b0 (C b0 (C b0 (C b0 (C b0 (C b1 Nil))))))))
 #define AddBit (\x \y y (C x b0) (x (C b1 b0) (C b0 b1)))
-#define Succ \
+#define SuccR \
   (\self \x \xs \acc                       \
     (\r                                    \
       (\f (C (C (f Fst) (r Fst)) (f Snd))) \
       (AddBit x (r Snd)))                  \
     (xs (self self) acc))
-#define One (((\succ Zero (succ succ) (C Nil b1)) Succ) Fst)
+#define One (((\succ Zero (succ succ) (C Nil b1)) SuccR) Fst)
 \input (C One Nil)
