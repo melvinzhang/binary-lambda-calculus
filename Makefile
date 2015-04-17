@@ -46,6 +46,9 @@ unid: uni.c
 	(cat $^; cat -) | ./uni
 	@echo
 
+%.reduce: symbolic.Blc %.blc
+	cat $^ | ./uni
+
 hilbert:
 	(cat hilbert.Blc; echo -n 1024) | ./uni
 
