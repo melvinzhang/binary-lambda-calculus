@@ -38,6 +38,14 @@ unid: uni.c
 	cat $^ bytes | ./uni
 	@echo
 
+%.bi: %.blc
+	(cat $^; cat -) | ./uni -b
+	@echo
+
+%.Bi: %.Blc
+	(cat $^; cat -) | ./uni
+	@echo
+
 hilbert:
 	(cat hilbert.Blc; echo -n 1024) | ./uni
 
