@@ -1,0 +1,3 @@
+# cat quine.blc quine.blc ==
+# cat quine.blc quine.blc | ./uni -b
+\input input ((\b b b) (\b \c \d \e \f f c (d (b b) e))) input
