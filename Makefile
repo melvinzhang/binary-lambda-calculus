@@ -61,6 +61,11 @@ primes.bin: primes.blc
 hw_in_bf: bf.Blc hw.bf
 	cat $^ | ./uni
 
+quine: quine.blc
+	@cat $^ $^
+	@echo
+	@cat $^ $^ | ./uni -b
+
 reduction: symbolic.Blc 2exp3.blc
 	cat $^ | ./uni
 

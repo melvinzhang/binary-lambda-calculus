@@ -1,3 +1,11 @@
-# cat quine.blc quine.blc ==
-# cat quine.blc quine.blc | ./uni -b
-\input input ((\b b b) (\b \c \d \e \f f c (d (b b) e))) input
+/*
+cat quine.blc quine.blc
+cat quine.blc quine.blc | ./uni -b
+
+produces the same output
+*/
+
+#define U (\x x x)
+#define Q (\self \c \d \e \f f c (d (self self) e))
+
+\input input (U Q) input
