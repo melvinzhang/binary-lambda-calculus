@@ -297,15 +297,6 @@ int main(int argc, char **argv) {
             e=env->e;
             e->r++;
             d(old);
-
-            //call-by-need optimization, based on the L machine defined in
-            //http://www.cs.indiana.edu/ftp/techreports/TR581.pdf
-
-            //mark env to be updated to point to normal form
-            if (opt && (T[t] == A || T[t] == V) && env->r > 0 && e->r > 2) {
-                log("OPT MARK %d\n", t);
-                push(&s, newC(0, 0, env));
-            }
             break;
         }
         case A: {
@@ -318,27 +309,6 @@ int main(int argc, char **argv) {
             break;
         }
         case L: {
-            //update env to point to normal form (t,e)
-            while (opt && s && s->t == 0) {
-                C* marker = pop(&s);
-                C* env = marker->e;
-
-                //decrement reference created when marker is created
-                env->r--;
-
-                //update env->t
-                int old_t = env->t;
-                env->t = t;
-
-                //update env->e and correct reference count
-                env->e->r--;
-                env->e = e;
-                env->e->r++;
-
-                push(&freel, marker);
-                log("OPT UPDATE %p %d->%d\n", env, old_t, env->t);
-            }
-
             //pop closure from stack and make it top level environment
             if (!s) {
                 return 0;
