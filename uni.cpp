@@ -1,5 +1,4 @@
 #include <cstdio>
-#include <cstdlib>
 #include <cassert>
 #include <getopt.h>
 #include <vector>
@@ -196,7 +195,7 @@ static void showP() {
 
 static C* newC(int ar, idx at, C* ae) {
     if (!freel) {
-        freel=static_cast<C*>(calloc(1,sizeof(C)));
+        freel=new C();
     }
     assert(freel);
     C *l=pop(&freel);
@@ -244,7 +243,7 @@ int main(int argc, char **argv) {
     left=0;
 
     // set initial environment as {0,0,0}
-    e = static_cast<C*>(calloc(1,sizeof(C)));
+    e = new C();
 
     while(1) {
         //logp(showL(freel, "F"));
