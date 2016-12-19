@@ -1,6 +1,10 @@
 uni: uni.c
 	gcc -std=c99 -O3 -DM=1000000 $^ -o $@
 
+unip: uni.cpp
+	g++ -std=c++11 -O3 $^ -o $@
+	mv unip uni
+
 uni.pg: uni.c
 	gcc -std=c99 -DM=1000000 -pg $^ -o $@
 
