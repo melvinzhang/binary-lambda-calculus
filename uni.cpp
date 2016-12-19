@@ -93,10 +93,14 @@ C *freel;
 //s points to closure on the top of the stack
 C* s;
 
+void push_back(int v) {
+    T[n++] = v;
+}
+
 //copy T[l..u] to end of T
 void x(int l,int u) {
     log("X %d %d\n", l, u);
-    for(; l<=u; T[n++]=T[l++]);
+    for(; l<=u; push_back(T[l++]));
 }
 
 //gets one bit of input, setting i to -1 on EOF or to remaining number of bits in current byte
@@ -143,17 +147,21 @@ void d(C *l) {
 //parses blc-encoded lambda term using g(), stores results in term space and returns length
 int p(const int m) {
     if (g()) {
-        for(T[n++]=V; g(); T[n]++);
-        n++;
+        push_back(V);
+        push_back(0);
+        while (g()) {
+            T[n-1]++;
+        }
     } else {
         //01 -> application
         if (g()) {
-            T[n++] = A;
-            int j = n++;
+            push_back(A);
+            push_back(0);
+            int j = n - 1;
             T[j] = p(m+2);
         //00 -> abstraction
         } else {
-            T[n++] = L;
+            push_back(L);
         }
         // decode the rest of the input
         p(n);
@@ -205,7 +213,7 @@ C* newC(int ar, int at, C* ae) {
 }
 
 int main(int argc, char **argv) {
-	T.resize(100000, 0);
+    T.resize(100000, 0);
 
     // default is byte mode
     //  7 for byte mode
@@ -255,7 +263,7 @@ int main(int argc, char **argv) {
             //not EOF and in byte mode, setup one byte
             if (~c&&b) {
                 x(0,6);
-                for(T[n-5]=96; left; T[n++]=!g())
+                for(T[n-5]=96; left; push_back(!g()))
                     x(0,9);
             }
             //EOF reached
@@ -266,7 +274,7 @@ int main(int argc, char **argv) {
             } else {
                 x(b, 9);
             }
-            T[n++]=!b&&!g();
+            push_back(!b&&!g());
             break;
         case OB:
             w(o);
