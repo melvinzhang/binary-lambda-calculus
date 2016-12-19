@@ -28,22 +28,36 @@ enum {
     L
 };
 
+//closure
+typedef struct _ {
+    // lambda term (index in term space)
+    idx t;
+    // reference count
+    int r;
+    // pointer to environment
+    struct _ *e;
+    // pointer to the next closure (as part of an environment), or next record on free list
+    struct _ *n;
+} C;
+
+struct U {
 // optimization flag
 // false = default
 // true  = call-by-need
-static int opt = 0;
+int opt = 0;
 
 // b=0 for bit mode and 7 for byte mode
-static idx b;
+// default is byte mode
+idx b = 7;
 
 //bits left in current byte
-static idx left;
+idx left;
 
 //current input char
-static int c;
+int c;
 
 // Lambda term space
-static std::vector<idx> T = {
+std::vector<idx> T = {
 //encoding of input stream
 // S = L A8,A2V0 ..
 // 0 = L A8 A2V0LLV0 ..
@@ -69,36 +83,30 @@ static std::vector<idx> T = {
 
 // bit mode term
 // (\output output (\b b O0 O1)) (P input)
-
-//closure
-typedef struct _ {
-    // lambda term (index in term space)
-    idx t;
-    // reference count
-    int r;
-    // pointer to environment
-    struct _ *e;
-    // pointer to the next closure (as part of an environment), or next record on free list
-    struct _ *n;
-} C;
+    
+// current term to be processed
+//  10 for byte mode
+//  26 for bit mode
+idx t = 10;
 
 //current environment
-static C *e;
+// set initial environment as {0,0,0}
+C *e = new C();
 
 //free list
-static C *freel;
+C *freel;
 
 //s points to closure on the top of the stack
-static C* s;
+C* s;
 
 //copy T[l..u] to end of T
-static void x(idx l,idx u) {
-    log("X %d %d\n", l, u);
+void x(idx l,idx u) {
+    log("X %lu %lu\n", l, u);
     for(; l<=u; T.push_back(T[l++]));
 }
 
 //gets one bit of input, setting i to -1 on EOF or to remaining number of bits in current byte
-static int g() {
+int g() {
     if (left == 0) {
         left=b;
         c=getchar();
@@ -109,27 +117,27 @@ static int g() {
 }
 
 //write one char to stdout
-static void w(char o) {
+void w(char o) {
     putchar(o);
     log("P %c\n", o);
     fflush(stdout);
 }
 
 //push l onto top
-static void push(C** top, C* l) {
+void push(C** top, C* l) {
     l->n = *top;
     *top = l;
 }
 
 //pop the top element
-static C* pop(C** top) {
+C* pop(C** top) {
     C *l = *top;
     *top = (*top)->n;
     return l;
 }
 
 //decrease reference counter, add record to free list on reaching zero
-static void d(C *l) {
+void d(C *l) {
     l->r--;
     if (l->r == 0) {
         d(l->e);
@@ -139,7 +147,7 @@ static void d(C *l) {
 }
 
 //parses blc-encoded lambda term using g(), stores results in term space and returns length
-static idx p(const idx m) {
+idx p(const idx m) {
     if (g()) {
         T.push_back(V);
         T.push_back(0);
@@ -163,37 +171,37 @@ static idx p(const idx m) {
     return T.size()-m;
 }
 
-static void showL(C *h, char *name) {
+void showL(C *h, const char *name) {
     log("%s ", name);
     while (h) {
-        log("(t:%d, r:%d, e:%p, a:%p) ", h->t, h->r, h->e, h);
+        log("(t:%lu, r:%d, e:%p, a:%p) ", h->t, h->r, h->e, h);
         h = h->n;
     }
     log("\n");
 }
 
-static idx showI(idx j) {
-    log("T[%d]: ", j);
+idx showI(idx j) {
+    log("T[%lu]: ", j);
     switch (T[j]) {
         case I: log("I\n"); break;
         case OB: log("OB\n"); break;
         case O0: log("O0\n"); break;
         case O1: log("O1\n"); break;
-        case V: log("V %d\n", T[j+1]); j++; break;
-        case A: log("A %d\n", T[j+1]); j++; break;
+        case V: log("V %lu\n", T[j+1]); j++; break;
+        case A: log("A %lu\n", T[j+1]); j++; break;
         case L: log("L\n"); break;
     }
     j++;
     return j;
 }
 
-static void showP() {
+void showP() {
     for (idx j = 44; j < T.size();) {
         j = showI(j);
     }
 }
 
-static C* newC(int ar, idx at, C* ae) {
+C* newC(int ar, idx at, C* ae) {
     if (!freel) {
         freel=new C();
     }
@@ -206,45 +214,9 @@ static C* newC(int ar, idx at, C* ae) {
     return l;
 }
 
-int main(int argc, char **argv) {
-
-    // default is byte mode
-    //  7 for byte mode
-    //  0 for bit mode
-    b = 7;
-    
-    // current term to be processed
-    //  10 for byte mode
-    //  26 for bit mode
-    idx t = 10;
-    
+int run() {
     // output char
     char o = '\0';
-   
-    // process options
-    int ch;
-    while ((ch = getopt(argc, argv, "bBpo")) != -1) {
-        switch (ch) {
-          case 'B': b = 7; t = 10; break;
-          case 'b': b = 0; t = 26; break;
-          case 'p': t = 44; break;
-          case 'o': opt = 1; break;
-        }
-    }
-
-    // read program into end of T and store its size in T[43];
-    T.push_back(0);
-    T[43] = p(T.size());
-
-    // show loaded program
-    logp(showP());
-
-    // clear bits left
-    left=0;
-
-    // set initial environment as {0,0,0}
-    e = new C();
-
     while(1) {
         //logp(showL(freel, "F"));
         logp(showL(s, "S"));
@@ -322,4 +294,35 @@ int main(int argc, char **argv) {
             break;
         }}
     }
+}
+
+void load() {
+    // read program into end of T and store its size in T[43];
+    T.push_back(0);
+    T[43] = p(T.size());
+    // clear bits left
+    left=0;
+}
+};
+
+int main(int argc, char **argv) {
+    struct U u = U();
+
+    // process options
+    int ch;
+    while ((ch = getopt(argc, argv, "bBpo")) != -1) {
+        switch (ch) {
+          case 'B': u.b = 7; u.t = 10; break;
+          case 'b': u.b = 0; u.t = 26; break;
+          case 'p': u.t = 44; break;
+          case 'o': u.opt = 1; break;
+        }
+    }
+
+    u.load();
+
+    // show loaded program
+    logp(u.showP());
+
+    return u.run();
 }
