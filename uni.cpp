@@ -69,9 +69,6 @@ std::vector<int> T = {
 // bit mode term
 // (\output output (\b b O0 O1)) (P input)
 
-// end of T
-int n = 44;
-
 //closure
 typedef struct _ {
     // lambda term (index in term space)
@@ -94,7 +91,7 @@ C *freel;
 C* s;
 
 void push_back(int v) {
-    T[n++] = v;
+    T.push_back(v);
 }
 
 //copy T[l..u] to end of T
@@ -150,23 +147,23 @@ int p(const int m) {
         push_back(V);
         push_back(0);
         while (g()) {
-            T[n-1]++;
+            T[T.size()-1]++;
         }
     } else {
         //01 -> application
         if (g()) {
             push_back(A);
             push_back(0);
-            int j = n - 1;
+            int j = T.size() - 1;
             T[j] = p(m+2);
         //00 -> abstraction
         } else {
             push_back(L);
         }
         // decode the rest of the input
-        p(n);
+        p(T.size());
     }
-    return n-m;
+    return T.size()-m;
 }
 
 void showL(C *h, char *s) {
@@ -194,7 +191,7 @@ int showI(int j) {
 }
 
 void showP() {
-    for (int j = 44; j < n;) {
+    for (int j = 44; j < T.size();) {
         j = showI(j);
     }
 }
@@ -213,7 +210,6 @@ C* newC(int ar, int at, C* ae) {
 }
 
 int main(int argc, char **argv) {
-    T.resize(100000, 0);
 
     // default is byte mode
     //  7 for byte mode
@@ -240,7 +236,8 @@ int main(int argc, char **argv) {
     }
 
     // read program into end of T and store its size in T[43];
-    T[43]=p(n);
+    push_back(0);
+    T[43] = p(T.size());
 
     // show loaded program
     logp(showP());
@@ -263,7 +260,7 @@ int main(int argc, char **argv) {
             //not EOF and in byte mode, setup one byte
             if (~c&&b) {
                 x(0,6);
-                for(T[n-5]=96; left; push_back(!g()))
+                for(T[T.size()-5]=96; left; push_back(!g()))
                     x(0,9);
             }
             //EOF reached
