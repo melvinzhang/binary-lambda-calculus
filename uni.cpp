@@ -29,16 +29,16 @@ enum {
 };
 
 //closure
-typedef struct _ {
+struct C {
     // lambda term (index in term space)
     idx t;
     // reference count
     int r;
     // pointer to environment
-    struct _ *e;
+    C *e;
     // pointer to the next closure (as part of an environment), or next record on free list
-    struct _ *n;
-} C;
+    C *n;
+};
 
 struct U {
 // optimization flag
@@ -306,7 +306,7 @@ void load() {
 };
 
 int main(int argc, char **argv) {
-    struct U u = U();
+    U u = U();
 
     // process options
     int ch;
