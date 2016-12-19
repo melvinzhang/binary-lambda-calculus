@@ -5,12 +5,14 @@
 #include <vector>
 
 #ifdef LOG
-#define log(M, ...) fprintf(stderr, M, ##__VA_ARGS__)
+#define log(...) fprintf(stderr, ##__VA_ARGS__)
 #define logp(M) M
 #else
-#define log(M, ...)
+#define log(...)
 #define logp(M)
 #endif
+
+using idx = std::vector<int>::size_type;
 
 enum {
     // input
@@ -30,19 +32,19 @@ enum {
 // optimization flag
 // false = default
 // true  = call-by-need
-int opt = 0;
+static int opt = 0;
 
 // b=0 for bit mode and 7 for byte mode
-int b;
+static idx b;
 
 //bits left in current byte
-int left;
+static idx left;
 
 //current input char
-int c;
+static int c;
 
 // Lambda term space
-std::vector<int> T = {
+static std::vector<idx> T = {
 //encoding of input stream
 // S = L A8,A2V0 ..
 // 0 = L A8 A2V0LLV0 ..
@@ -72,7 +74,7 @@ std::vector<int> T = {
 //closure
 typedef struct _ {
     // lambda term (index in term space)
-    int t;
+    idx t;
     // reference count
     int r;
     // pointer to environment
@@ -82,22 +84,22 @@ typedef struct _ {
 } C;
 
 //current environment
-C *e;
+static C *e;
 
 //free list
-C *freel;
+static C *freel;
 
 //s points to closure on the top of the stack
-C* s;
+static C* s;
 
 //copy T[l..u] to end of T
-void x(int l,int u) {
+static void x(idx l,idx u) {
     log("X %d %d\n", l, u);
     for(; l<=u; T.push_back(T[l++]));
 }
 
 //gets one bit of input, setting i to -1 on EOF or to remaining number of bits in current byte
-int g() {
+static int g() {
     if (left == 0) {
         left=b;
         c=getchar();
@@ -108,27 +110,27 @@ int g() {
 }
 
 //write one char to stdout
-void w(char o) {
+static void w(char o) {
     putchar(o);
     log("P %c\n", o);
     fflush(stdout);
 }
 
 //push l onto top
-void push(C** top, C* l) {
+static void push(C** top, C* l) {
     l->n = *top;
     *top = l;
 }
 
 //pop the top element
-C* pop(C** top) {
+static C* pop(C** top) {
     C *l = *top;
     *top = (*top)->n;
     return l;
 }
 
 //decrease reference counter, add record to free list on reaching zero
-void d(C *l) {
+static void d(C *l) {
     l->r--;
     if (l->r == 0) {
         d(l->e);
@@ -138,7 +140,7 @@ void d(C *l) {
 }
 
 //parses blc-encoded lambda term using g(), stores results in term space and returns length
-int p(const int m) {
+static idx p(const idx m) {
     if (g()) {
         T.push_back(V);
         T.push_back(0);
@@ -150,7 +152,7 @@ int p(const int m) {
         if (g()) {
             T.push_back(A);
             T.push_back(0);
-            int j = T.size() - 1;
+            idx j = T.size() - 1;
             T[j] = p(m+2);
         //00 -> abstraction
         } else {
@@ -162,8 +164,8 @@ int p(const int m) {
     return T.size()-m;
 }
 
-void showL(C *h, char *s) {
-    log("%s ", s);
+static void showL(C *h, char *name) {
+    log("%s ", name);
     while (h) {
         log("(t:%d, r:%d, e:%p, a:%p) ", h->t, h->r, h->e, h);
         h = h->n;
@@ -171,7 +173,7 @@ void showL(C *h, char *s) {
     log("\n");
 }
 
-int showI(int j) {
+static idx showI(idx j) {
     log("T[%d]: ", j);
     switch (T[j]) {
         case I: log("I\n"); break;
@@ -186,15 +188,15 @@ int showI(int j) {
     return j;
 }
 
-void showP() {
-    for (int j = 44; j < T.size();) {
+static void showP() {
+    for (idx j = 44; j < T.size();) {
         j = showI(j);
     }
 }
 
-C* newC(int ar, int at, C* ae) {
+static C* newC(int ar, idx at, C* ae) {
     if (!freel) {
-        freel=(C*)calloc(1,sizeof(C));
+        freel=static_cast<C*>(calloc(1,sizeof(C)));
     }
     assert(freel);
     C *l=pop(&freel);
@@ -215,13 +217,13 @@ int main(int argc, char **argv) {
     // current term to be processed
     //  10 for byte mode
     //  26 for bit mode
-    int t = 10;
+    idx t = 10;
     
     // output char
-    char o;
+    char o = '\0';
    
     // process options
-    char ch;
+    int ch;
     while ((ch = getopt(argc, argv, "bBpo")) != -1) {
         switch (ch) {
           case 'B': b = 7; t = 10; break;
@@ -242,7 +244,7 @@ int main(int argc, char **argv) {
     left=0;
 
     // set initial environment as {0,0,0}
-    e = (C*)calloc(1,sizeof(C));
+    e = static_cast<C*>(calloc(1,sizeof(C)));
 
     while(1) {
         //logp(showL(freel, "F"));
@@ -292,10 +294,10 @@ int main(int argc, char **argv) {
         case V: {
             //resolve v to an environment e and continue execution
             //with t = e->t and e = e->e
-            const int index = T[t+1];
+            const idx index = T[t+1];
             C *old = e;
             C *env = e;
-            for(int j=index; j--; env=env->n);
+            for(idx j=index; j--; env=env->n);
             t=env->t;
             e=env->e;
             e->r++;
@@ -306,7 +308,7 @@ int main(int argc, char **argv) {
             //create a closure and push it onto S
             // t = index of term that is the argument
             // e = current environment
-            const int size = T[t+1];
+            const idx size = T[t+1];
             t+=2;
             push(&s, newC(1, t+size, e));
             break;
@@ -321,5 +323,4 @@ int main(int argc, char **argv) {
             break;
         }}
     }
-    return T[t+2];
 }

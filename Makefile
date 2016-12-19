@@ -2,7 +2,7 @@ uni: uni.c
 	gcc -std=c99 -O3 -DM=1000000 $^ -o $@
 
 unip: uni.cpp
-	clang++ -std=c++11 -O3 $^ -o $@
+	clang++ -std=c++11 -O3 -Wall -Wno-unused-function $^ -o $@
 	mv unip uni
 
 uni.pg: uni.c
