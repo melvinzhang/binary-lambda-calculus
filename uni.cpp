@@ -214,34 +214,38 @@ C* newC(int ar, idx at, C* ae) {
     return l;
 }
 
+void read() {
+    g();
+    left++;
+    //not EOF and in byte mode, setup one byte
+    if (~c&&b) {
+        x(0,6);
+        for(T[T.size()-5]=96; left; T.push_back(!g()))
+            x(0,9);
+    }
+    //EOF reached
+    if (c < 0) {
+        x(7, 9);
+    //in bit mode, setup one bit
+    //in byte mode, terminate byte list
+    } else {
+        x(b, 9);
+    }
+    T.push_back(!b&&!g());
+}
+
 int run() {
     // output char
     char o = '\0';
     while(1) {
+        if (t >= T.size()) {
+            read();
+        }
         //logp(showL(freel, "F"));
         logp(showL(s, "S"));
         logp(showL(e, "E"));
         logp(showI(t));
         switch(T[t]) {
-        case I:
-            g();
-            left++;
-            //not EOF and in byte mode, setup one byte
-            if (~c&&b) {
-                x(0,6);
-                for(T[T.size()-5]=96; left; T.push_back(!g()))
-                    x(0,9);
-            }
-            //EOF reached
-            if (c < 0) {
-                x(7, 9);
-            //in bit mode, setup one bit
-            //in byte mode, terminate byte list
-            } else {
-                x(b, 9);
-            }
-            T.push_back(!b&&!g());
-            break;
         case OB:
             w(o);
             t = 12;
