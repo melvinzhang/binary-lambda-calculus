@@ -14,8 +14,6 @@
 using idx = std::vector<int>::size_type;
 
 enum {
-    // input
-    I,
     // output
     OB,
     O0,
@@ -183,7 +181,6 @@ void showL(C *h, const char *name) {
 idx showI(idx j) {
     log("T[%lu]: ", j);
     switch (T[j]) {
-        case I: log("I\n"); break;
         case OB: log("OB\n"); break;
         case O0: log("O0\n"); break;
         case O1: log("O1\n"); break;
