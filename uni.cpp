@@ -264,14 +264,14 @@ int run() {
             t = 28;
             break;
         case V: {
-            //resolve v to an environment e and continue execution
-            //with t = e->t and e = e->e
+            //resolve v to an closure clo and continue execution
+            //with t = clo->t and e = clo->e
             const idx index = T[t+1];
             C *old = e;
-            C *env = e;
-            for(idx j=index; j--; env=env->n);
-            t=env->t;
-            e=env->e;
+            C *clo = e;
+            for(idx j=index; j--; clo=clo->n);
+            t=clo->t;
+            e=clo->e;
             e->r++;
             d(old);
             break;
