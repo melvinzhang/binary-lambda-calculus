@@ -5,6 +5,10 @@ unip: uni.cpp
 	clang++ -std=c++11 -O3 -Wall -Wno-unused-function $^ -o $@
 	mv unip uni
 
+unipd: uni.cpp
+	clang++ -std=c++11 -O3 -Wall -Wno-unused-function -DLOG -fsanitize=address -g $^ -o $@
+	mv unipd uni
+
 uni.pg: uni.c
 	gcc -std=c99 -DM=1000000 -pg $^ -o $@
 
