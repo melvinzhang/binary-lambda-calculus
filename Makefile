@@ -7,7 +7,7 @@ unip: uni.cpp
 
 unipd: uni.cpp
 	clang++ -std=c++11 -O3 -Wall -Wno-unused-function -DLOG -fsanitize=address -g $^ -o $@
-	mv unipd uni
+	mv unipd unid
 
 uni.pg: uni.c
 	gcc -std=c99 -DM=1000000 -pg $^ -o $@
