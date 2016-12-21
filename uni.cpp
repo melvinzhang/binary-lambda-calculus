@@ -254,6 +254,12 @@ int run() {
             for(idx j=index; j--; clo=clo->n);
             t=clo->t;
             e=clo->e;
+
+            //push marker on the stack to update clo
+            if (opt && t < T.size() && (T[t] == V || T[t] == A)) {
+                push(&s, newC(0, clo));
+            }
+
             break;
         }
         case A: {
@@ -266,6 +272,13 @@ int run() {
             break;
         }
         case L: {
+            //pop marker from the stack and update clo
+            while (opt && s && s->t == 0) {
+                Cp clo = pop(&s)->e;
+                clo->t = t;
+                clo->e = e;
+            }
+
             //pop closure from stack and make it top level environment
             if (!s) {
                 return 0;
