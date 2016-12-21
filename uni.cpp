@@ -2,6 +2,7 @@
 #include <cassert>
 #include <getopt.h>
 #include <vector>
+#include <memory>
 
 #ifdef LOG
 #define log(...) fprintf(stderr, ##__VA_ARGS__)
@@ -30,13 +31,13 @@ enum {
 struct C {
     // lambda term (index in term space)
     idx t;
-    // reference count
-    int r;
     // pointer to environment
-    C *e;
+    std::shared_ptr<C> e;
     // pointer to the next closure (as part of an environment), or next record on free list
-    C *n;
+    std::shared_ptr<C> n;
 };
+
+using Cp = std::shared_ptr<C>;
 
 struct U {
 // optimization flag
@@ -89,13 +90,10 @@ idx t = 10;
 
 //current environment
 // set initial environment as {0,0,0}
-C *e = new C();
-
-//free list
-C *freel;
+Cp e = std::make_shared<C>();
 
 //s points to closure on the top of the stack
-C* s;
+Cp s;
 
 //copy T[l..u] to end of T
 void x(idx l,idx u) {
@@ -122,26 +120,16 @@ void w(char o) {
 }
 
 //push l onto top
-void push(C** top, C* l) {
+void push(Cp* top, Cp l) {
     l->n = *top;
     *top = l;
 }
 
 //pop the top element
-C* pop(C** top) {
-    C *l = *top;
+Cp pop(Cp* top) {
+    Cp l = *top;
     *top = (*top)->n;
     return l;
-}
-
-//decrease reference counter, add record to free list on reaching zero
-void d(C *l) {
-    l->r--;
-    if (l->r == 0) {
-        d(l->e);
-        d(l->n);
-        push(&freel, l);
-    }
 }
 
 //parses blc-encoded lambda term using g(), stores results in term space and returns length
@@ -169,10 +157,10 @@ idx p(const idx m) {
     return T.size()-m;
 }
 
-void showL(C *h, const char *name) {
+void showL(Cp h, const char *name) {
     log("%s ", name);
     while (h) {
-        log("(t:%lu, r:%d, e:%p, a:%p) ", h->t, h->r, h->e, h);
+        log("(t:%lu, r:%ld, e:%p, a:%p) ", h->t, h.use_count(), h->e.get(), h.get());
         h = h->n;
     }
     log("\n");
@@ -198,16 +186,10 @@ void showP() {
     }
 }
 
-C* newC(int ar, idx at, C* ae) {
-    if (!freel) {
-        freel=new C();
-    }
-    assert(freel);
-    C *l=pop(&freel);
-    l->r=ar;
+Cp newC(idx at, Cp ae) {
+    Cp l=std::make_shared<C>();
     l->t=at;
     l->e=ae;
-    ae->r++;
     return l;
 }
 
@@ -267,13 +249,11 @@ int run() {
             //resolve v to an closure clo and continue execution
             //with t = clo->t and e = clo->e
             const idx index = T[t+1];
-            C *old = e;
-            C *clo = e;
+            Cp old = e;
+            Cp clo = e;
             for(idx j=index; j--; clo=clo->n);
             t=clo->t;
             e=clo->e;
-            e->r++;
-            d(old);
             break;
         }
         case A: {
@@ -282,7 +262,7 @@ int run() {
             // e = current environment
             const idx size = T[t+1];
             t+=2;
-            push(&s, newC(1, t+size, e));
+            push(&s, newC(t+size, e));
             break;
         }
         case L: {
