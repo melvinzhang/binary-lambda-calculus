@@ -188,7 +188,7 @@ void showP() {
     }
 }
 
-Cp newC(idx at, Cp ae) {
+Cp newC(idx at, Cp const& ae) {
     Cp l=std::make_shared<C>();
     l->t=at;
     l->e=ae;
