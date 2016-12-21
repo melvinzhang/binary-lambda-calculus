@@ -120,15 +120,15 @@ void w(char o) {
 }
 
 //push l onto top
-void push(Cp* top, Cp l) {
-    l->n = *top;
-    *top = l;
+void push(Cp& top, Cp const& l) {
+    l->n = top;
+    top = l;
 }
 
 //pop the top element
-Cp pop(Cp* top) {
-    Cp l = *top;
-    *top = (*top)->n;
+Cp pop(Cp& top) {
+    Cp l = top;
+    top = top->n;
     return l;
 }
 
@@ -257,7 +257,7 @@ int run() {
 
             //push marker on the stack to update clo
             if (opt && t < T.size() && (T[t] == V || T[t] == A)) {
-                push(&s, newC(0, clo));
+                push(s, newC(0, clo));
             }
 
             break;
@@ -268,13 +268,13 @@ int run() {
             // e = current environment
             const idx size = T[t+1];
             t+=2;
-            push(&s, newC(t+size, e));
+            push(s, newC(t+size, e));
             break;
         }
         case L: {
             //pop marker from the stack and update clo
             while (opt && s && s->t == 0) {
-                Cp clo = pop(&s)->e;
+                Cp clo = pop(s)->e;
                 clo->t = t;
                 clo->e = e;
             }
@@ -283,7 +283,7 @@ int run() {
             if (!s) {
                 return 0;
             }
-            push(&e, pop(&s));
+            push(e, pop(s));
             t++;
             break;
         }}
