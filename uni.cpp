@@ -249,7 +249,6 @@ int run() {
             //resolve v to an closure clo and continue execution
             //with t = clo->t and e = clo->e
             const idx index = T[t+1];
-            Cp old = e;
             Cp clo = e;
             for(idx j=index; j--; clo=clo->n);
             t=clo->t;
