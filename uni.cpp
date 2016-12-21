@@ -89,8 +89,7 @@ std::vector<idx> T = {
 idx t = 10;
 
 //current environment
-// set initial environment as {0,0,0}
-Cp e = std::make_shared<C>();
+Cp e;
 
 //s points to closure on the top of the stack
 Cp s;
