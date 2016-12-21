@@ -95,6 +95,9 @@ Cp e = std::make_shared<C>();
 //s points to closure on the top of the stack
 Cp s;
 
+//number of steps executed
+idx steps = 0;
+
 //copy T[l..u] to end of T
 void x(idx l,idx u) {
     log("X %lu %lu\n", l, u);
@@ -217,6 +220,7 @@ int run() {
     // output char
     char o = '\0';
     while(1) {
+        steps++;
         if (t >= T.size()) {
             read();
         }
@@ -317,5 +321,9 @@ int main(int argc, char **argv) {
     // show loaded program
     logp(u.showP());
 
-    return u.run();
+    u.run();
+
+    fprintf(stderr, "\nsteps = %ld\n", u.steps);
+
+    return 0;
 }
