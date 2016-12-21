@@ -259,7 +259,7 @@ int run() {
             e=clo->e;
 
             //push marker on the stack to update clo
-            if (opt && t < T.size() && (T[t] == V || T[t] == A)) {
+            if (opt && (T[t] == V || T[t] == A)) {
                 push(s, newC(0, clo));
             }
 
