@@ -33,7 +33,7 @@ struct C {
     idx t;
     // pointer to environment
     std::shared_ptr<C> e;
-    // pointer to the next closure (as part of an environment), or next record on free list
+    // pointer to the next closure
     std::shared_ptr<C> n;
 };
 
@@ -227,7 +227,6 @@ int run() {
     char o = '\0';
     while(1) {
         steps++;
-        //logp(showL(freel, "F"));
         logp(showL(s, "S"));
         logp(showL(e, "E"));
         logp(showI(t));
