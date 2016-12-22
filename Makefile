@@ -6,7 +6,7 @@ unip: uni.cpp
 	mv unip uni
 
 unipd: uni.cpp
-	clang++ -std=c++11 -O3 -Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-unused-function -DLOG -fsanitize=address -g $^ -o $@
+	clang++ -std=c++11 -O3 -Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-unused-function -DLOG -fsanitize=memory -g $^ -o $@
 	mv unipd unid
 
 uni.pg: uni.c

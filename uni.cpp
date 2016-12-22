@@ -170,7 +170,7 @@ void showL(Cp h, const char *name) {
 
 idx showI(idx j) {
     log("T[%lu]: ", j);
-    switch (T[j]) {
+    switch (read(j)) {
         case OB: log("OB\n"); break;
         case O0: log("O0\n"); break;
         case O1: log("O1\n"); break;
@@ -215,19 +215,23 @@ void read() {
     T.push_back(!b&&!g());
 }
 
+idx read(idx j) {
+    while (j >= T.size()) {
+        read();
+    }
+    return T[j];
+}
+
 int run() {
     // output char
     char o = '\0';
     while(1) {
         steps++;
-        if (t >= T.size()) {
-            read();
-        }
         //logp(showL(freel, "F"));
         logp(showL(s, "S"));
         logp(showL(e, "E"));
         logp(showI(t));
-        switch(T[t]) {
+        switch(read(t)) {
         case OB:
             w(o);
             t = 12;
@@ -258,7 +262,7 @@ int run() {
             e=clo->e;
 
             //push marker on the stack to update clo
-            if (opt && (T[t] == V || T[t] == A) && clo.use_count() > 1) {
+            if (opt && (read(t) == V || read(t) == A) && clo.use_count() > 1) {
                 push(s, newC(0, clo));
             }
 
