@@ -33,4 +33,7 @@ It supports the following options:
 
 * -B: byte mode (default)
 * -b: binary mode
-* -o: enable call-by-need optimization
+* -o: enable all optmizations
+* -l: enable call-by-need optimization
+* -c: enable "collapse marker" optimization
+* -s: enable "eager dereferncing" optimization
