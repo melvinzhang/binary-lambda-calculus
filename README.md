@@ -2,11 +2,16 @@ The objective of this project is to understand [John Tromp's 2012 IOCCC entry](h
 
 # Done
 
-* Refactor and understand the C interpreter from https://tromp.github.io/cl/uni.c
-* Add call-by-need optimization to the interpreter
+* Refactor and understand the interpreter from https://tromp.github.io/cl/uni.c
+* Replace manual reference counting with shared_ptr
+* Add call-by-need optimization (<cite>[Winebarger2003][1]'s L machine</cite>)
+* Add "collapse marker" optimization (<cite>[Winebarger2003][1]'s C machine</cite>)
+* Add "eager dereferncing" optimization (<cite>[Winebarger2003][1]'s S machine</cite>)
 * Refactor and understand the following programs:
     * [reverse](reverse.lam)
     * [inflate](inflate.lam)
+
+[1]: http://www.cs.indiana.edu/pub/techreports/TR581.pdf
 
 # Todo
 * Refactor and understand the following programs:
