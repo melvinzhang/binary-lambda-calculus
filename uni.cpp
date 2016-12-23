@@ -232,6 +232,13 @@ idx read(idx j) {
     return T[j];
 }
 
+Cp deref(idx index) {
+    Cp clo = e;
+    for(idx j=index; j--; clo=clo->n);
+    lookup += index + 1;
+    return clo;
+}
+
 int run() {
     // output char
     char o = '\0';
@@ -264,10 +271,7 @@ int run() {
         case V: {
             //resolve v to an closure clo and continue execution
             //with t = clo->t and e = clo->e
-            const idx index = T[t+1];
-            lookup += index + 1;
-            Cp clo = e;
-            for(idx j=index; j--; clo=clo->n);
+            Cp clo = deref(T[t+1]);
             while ((collapse || shortcircuit) && clo->t == FORWARD) {
                 clo = clo->e;
                 forward++;
@@ -294,10 +298,7 @@ int run() {
             const idx size = T[t+1];
             t+=2;
             if (shortcircuit && read(t+size) == V) {
-                const idx index = T[t+size+1];
-                lookup += index + 1;
-                Cp clo = e;
-                for(idx j=index; j--; clo=clo->n);
+                Cp clo = deref(T[t+size+1]);
                 push(s, newC(FORWARD, clo));
             } else {
                 push(s, newC(t+size, e));
