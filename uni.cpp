@@ -45,10 +45,12 @@ struct C {
 using Cp = std::shared_ptr<C>;
 
 struct U {
-// optimization flag
-// false = default
-// true  = call-by-need
-int opt = 0;
+
+// optimization flags
+bool lazy = false;
+bool collapse = false;
+bool shortcircuit = false;
+
 
 // b=0 for bit mode and 7 for byte mode
 // default is byte mode
@@ -103,6 +105,7 @@ Cp s;
 idx steps = 0;
 idx lookup = 0;
 idx marker = 0;
+idx forward = 0;
 
 //copy T[l..u] to end of T
 void x(idx l,idx u) {
@@ -262,17 +265,19 @@ int run() {
             //resolve v to an closure clo and continue execution
             //with t = clo->t and e = clo->e
             const idx index = T[t+1];
+            lookup += index + 1;
             Cp clo = e;
             for(idx j=index; j--; clo=clo->n);
-            if (opt && clo->t == FORWARD) {
+            while ((collapse || shortcircuit) && clo->t == FORWARD) {
                 clo = clo->e;
+                forward++;
             }
             t=clo->t;
             e=clo->e;
 
             //push marker on the stack to update clo
-            if (opt && (read(t) == V || read(t) == A) && clo.use_count() > 1) {
-                if (s && s->t == MARKER) {
+            if (lazy && (read(t) == V || read(t) == A) && clo.use_count() > 1) {
+                if (collapse && s && s->t == MARKER) {
                     clo->t = FORWARD;
                     clo->e = s->e;
                 } else {
@@ -280,7 +285,6 @@ int run() {
                 }
             }
 
-            lookup += index + 1;
             break;
         }
         case A: {
@@ -289,12 +293,20 @@ int run() {
             // e = current environment
             const idx size = T[t+1];
             t+=2;
-            push(s, newC(t+size, e));
+            if (shortcircuit && read(t+size) == V) {
+                const idx index = T[t+size+1];
+                lookup += index + 1;
+                Cp clo = e;
+                for(idx j=index; j--; clo=clo->n);
+                push(s, newC(FORWARD, clo));
+            } else {
+                push(s, newC(t+size, e));
+            }
             break;
         }
         case L: {
             //pop marker from the stack and update clo
-            while (opt && s && s->t == MARKER) {
+            while (lazy && s && s->t == MARKER) {
                 Cp clo = pop(s)->e;
                 clo->t = t;
                 clo->e = e;
@@ -331,7 +343,10 @@ int main(int argc, char **argv) {
           case 'B': u.b = 7; u.t = 10; break;
           case 'b': u.b = 0; u.t = 26; break;
           case 'p': u.t = 44; break;
-          case 'o': u.opt = 1; break;
+          case 'o': u.lazy = true; u.collapse = true; u.shortcircuit = true; break;
+          case 'l': u.lazy = true; break;
+          case 'c': u.collapse = true; break;
+          case 's': u.shortcircuit = true; break;
         }
     }
 
@@ -342,7 +357,11 @@ int main(int argc, char **argv) {
 
     u.run();
 
-    fprintf(stderr, "\nsteps = %ld lookup = %ld marker = %ld\n", u.steps, u.lookup, u.marker);
+    fprintf(stderr, "\n");
+    fprintf(stderr, "steps   = %ld\n", u.steps);
+    fprintf(stderr, "lookup  = %ld\n", u.lookup);
+    fprintf(stderr, "marker  = %ld\n", u.marker);
+    fprintf(stderr, "forward = %ld\n", u.forward);
 
     return 0;
 }
