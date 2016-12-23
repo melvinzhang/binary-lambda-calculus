@@ -27,6 +27,11 @@ enum {
     L
 };
 
+enum {
+    MARKER,
+    FORWARD
+};
+
 //closure
 struct C {
     // lambda term (index in term space)
@@ -96,6 +101,8 @@ Cp s;
 
 //number of steps executed
 idx steps = 0;
+idx lookup = 0;
+idx marker = 0;
 
 //copy T[l..u] to end of T
 void x(idx l,idx u) {
@@ -257,14 +264,23 @@ int run() {
             const idx index = T[t+1];
             Cp clo = e;
             for(idx j=index; j--; clo=clo->n);
+            if (opt && clo->t == FORWARD) {
+                clo = clo->e;
+            }
             t=clo->t;
             e=clo->e;
 
             //push marker on the stack to update clo
             if (opt && (read(t) == V || read(t) == A) && clo.use_count() > 1) {
-                push(s, newC(0, clo));
+                if (s && s->t == MARKER) {
+                    clo->t = FORWARD;
+                    clo->e = s->e;
+                } else {
+                    push(s,newC(MARKER, clo));
+                }
             }
 
+            lookup += index + 1;
             break;
         }
         case A: {
@@ -278,10 +294,11 @@ int run() {
         }
         case L: {
             //pop marker from the stack and update clo
-            while (opt && s && s->t == 0) {
+            while (opt && s && s->t == MARKER) {
                 Cp clo = pop(s)->e;
                 clo->t = t;
                 clo->e = e;
+                marker++;
             }
 
             //pop closure from stack and make it top level environment
@@ -325,7 +342,7 @@ int main(int argc, char **argv) {
 
     u.run();
 
-    fprintf(stderr, "\nsteps = %ld\n", u.steps);
+    fprintf(stderr, "\nsteps = %ld lookup = %ld marker = %ld\n", u.steps, u.lookup, u.marker);
 
     return 0;
 }
