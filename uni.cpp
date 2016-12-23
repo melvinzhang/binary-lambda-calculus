@@ -339,7 +339,7 @@ int main(int argc, char **argv) {
 
     // process options
     int ch;
-    while ((ch = getopt(argc, argv, "bBpo")) != -1) {
+    while ((ch = getopt(argc, argv, "bBpolcs")) != -1) {
         switch (ch) {
           case 'B': u.b = 7; u.t = 10; break;
           case 'b': u.b = 0; u.t = 26; break;
