@@ -1,18 +1,20 @@
-uni: uni.c
-	gcc -std=c99 -O3 -DM=1000000 $^ -o $@
+uni: uni.cpp
+	clang++ -std=c++11 -O3 -Wall -Wno-unused-function $^ -o $@
+
+unid: uni.cpp
+	clang++ -std=c++11 -O3 -Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-unused-function -DLOG -fsanitize=memory -g $^ -o $@
 
 unip: uni.cpp
-	clang++ -std=c++11 -O3 -Wall -Wno-unused-function $^ -o $@
+	clang++ -std=c++11 -O3 -Wall -Wno-unused-function -lprofiler -g $^ -o $@
 	mv unip uni
 
-unipd: uni.cpp
-	clang++ -std=c++11 -O3 -Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-unused-function -DLOG -fsanitize=memory -g $^ -o $@
-	mv unipd unid
+unic: uni.c
+	gcc -std=c99 -O3 -DM=1000000 $^ -o $@
 
-uni.pg: uni.c
+unic.pg: uni.c
 	gcc -std=c99 -DM=1000000 -pg $^ -o $@
 
-unid: uni.c
+unicd: uni.c
 	gcc -std=c99 -Wall -DM=1000000 -DLOG $^ -o $@
 
 # lam -> lc -> blc -> Blc
