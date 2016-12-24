@@ -3,6 +3,7 @@
 #include <getopt.h>
 #include <vector>
 #include <memory>
+#include "IntrusiveRefCntPtr.h"
 
 #ifdef LOG
 #define log(...) fprintf(stderr, ##__VA_ARGS__)
@@ -32,18 +33,50 @@ enum {
     FORWARD
 };
 
+struct C;
+using Cp = IntrusiveRefCntPtr<C>;
+
 //closure
 struct C {
     // lambda term (index in term space)
     idx t;
     // pointer to environment
-    std::shared_ptr<C> e;
+    Cp e;
     // pointer to the next closure
-    std::shared_ptr<C> n;
+    Cp n;
+    // ref count
+    int r;
+    // free list;
+    static Cp freel;
+
+    static Cp newC(idx at, Cp const& ae) {
+        if (!freel) {
+            freel = Cp(new C());
+        }
+        Cp l=freel; freel = freel->n;
+        l->t=at;
+        l->e=ae;
+        return l;
+    }
+
+    void retain() {
+        r++;
+    }
+
+    void release() {
+        r--;
+        if (r == 0) {
+            e = nullptr;
+            n = nullptr;
+            n = freel;
+            freel = Cp(this);
+        }
+    }
 };
 
-using Cp = std::shared_ptr<C>;
+Cp C::freel = nullptr;
 
+//machine state
 struct U {
 
 // optimization flags
@@ -172,7 +205,7 @@ idx p(const idx m) {
 void showL(Cp h, const char *name) {
     log("%s ", name);
     while (h) {
-        log("(t:%lu, r:%ld, e:%p, a:%p) ", h->t, h.use_count(), h->e.get(), h.get());
+        log("(t:%lu, r:%ld, e:%p, a:%p) ", h->t, h->r, h->e.get(), h.get());
         h = h->n;
     }
     log("\n");
@@ -196,13 +229,6 @@ void showP() {
     for (idx j = 44; j < T.size();) {
         j = showI(j);
     }
-}
-
-Cp newC(idx at, Cp const& ae) {
-    Cp l=std::make_shared<C>();
-    l->t=at;
-    l->e=ae;
-    return l;
 }
 
 void read() {
@@ -280,12 +306,12 @@ int run() {
             e=clo->e;
 
             //push marker on the stack to update clo
-            if (lazy && (read(t) == V || read(t) == A) && clo.use_count() > 1) {
+            if (lazy && (read(t) == V || read(t) == A) && clo->r > 1) {
                 if (collapse && s && s->t == MARKER) {
                     clo->t = FORWARD;
                     clo->e = s->e;
                 } else {
-                    push(s,newC(MARKER, clo));
+                    push(s, C::newC(MARKER, clo));
                 }
             }
 
@@ -299,9 +325,9 @@ int run() {
             t+=2;
             if (shortcircuit && read(t+size) == V) {
                 Cp clo = deref(T[t+size+1]);
-                push(s, newC(FORWARD, clo));
+                push(s, C::newC(FORWARD, clo));
             } else {
-                push(s, newC(t+size, e));
+                push(s, C::newC(t+size, e));
             }
             break;
         }
