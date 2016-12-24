@@ -46,14 +46,17 @@ struct C {
     Cp n;
     // ref count
     int r;
+    // next free element
+    C* next;
+
     // free list;
-    static Cp freel;
+    static C* freel;
 
     static Cp newC(idx at, Cp const& ae) {
         if (!freel) {
-            freel = Cp(new C());
+            freel = new C();
         }
-        Cp l=freel; freel = freel->n;
+        Cp l=Cp(freel); freel = freel->next;
         l->t=at;
         l->e=ae;
         return l;
@@ -66,15 +69,13 @@ struct C {
     void release() {
         r--;
         if (r == 0) {
-            e = nullptr;
-            n = nullptr;
-            n = freel;
-            freel = Cp(this);
+            next = freel;
+            freel = this;
         }
     }
 };
 
-Cp C::freel = nullptr;
+C* C::freel = nullptr;
 
 //machine state
 struct U {
