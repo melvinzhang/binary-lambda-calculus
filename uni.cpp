@@ -183,13 +183,6 @@ void push(Cp& top, C* const l) {
     top = Cp(l);
 }
 
-//pop the top element of e
-Cp pop(Cp& top) {
-    Cp l = top;
-    top = top->n;
-    return l;
-}
-
 //parses blc-encoded lambda term using g(), stores results in term space and returns length
 idx p(const idx m) {
     if (g()) {
