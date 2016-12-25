@@ -52,13 +52,14 @@ struct C {
     // free list;
     static C* freel;
 
-    static Cp newC(idx at, C* const ae) {
+    static C* newC(idx at, C* const ae) {
         if (!freel) {
             freel = new C();
         }
-        Cp l=Cp(freel); freel = freel->next;
-        l->t=at;
-        l->e=Cp(ae);
+        C* l = freel;
+        freel = freel->next;
+        l->t = at;
+        l->e = Cp(ae);
         return l;
     }
 
@@ -166,9 +167,9 @@ void w(char o) {
 }
 
 //push l onto top
-void push(Cp& top, Cp const& l) {
+void push(Cp& top, C* const l) {
     l->n = top;
-    top = l;
+    top = Cp(l);
 }
 
 //pop the top element
@@ -345,7 +346,7 @@ int run() {
             if (!s) {
                 return 0;
             }
-            push(e, pop(s));
+            push(e, pop(s).get());
             t++;
             break;
         }}
