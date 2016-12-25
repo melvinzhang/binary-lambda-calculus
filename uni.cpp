@@ -336,7 +336,7 @@ int run() {
         case L: {
             //pop marker from the stack and update clo
             while (lazy && s && s->t == MARKER) {
-                Cp clo = pop(s)->e;
+                C* clo = pop(s)->e.get();
                 clo->t = t;
                 clo->e = e;
                 marker++;
