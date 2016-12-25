@@ -52,13 +52,13 @@ struct C {
     // free list;
     static C* freel;
 
-    static Cp newC(idx at, Cp const& ae) {
+    static Cp newC(idx at, C* const ae) {
         if (!freel) {
             freel = new C();
         }
         Cp l=Cp(freel); freel = freel->next;
         l->t=at;
-        l->e=ae;
+        l->e=Cp(ae);
         return l;
     }
 
@@ -259,9 +259,9 @@ idx read(idx j) {
     return T[j];
 }
 
-Cp deref(idx index) {
-    Cp clo = e;
-    for(idx j=index; j--; clo=clo->n);
+C* deref(idx index) {
+    C* clo = e.get();
+    for(idx j=index; j--; clo=clo->n.get());
     lookup += index + 1;
     return clo;
 }
@@ -298,9 +298,9 @@ int run() {
         case V: {
             //resolve v to an closure clo and continue execution
             //with t = clo->t and e = clo->e
-            Cp clo = deref(T[t+1]);
+            C* clo = deref(T[t+1]);
             while ((collapse || shortcircuit) && clo->t == FORWARD) {
-                clo = clo->e;
+                clo = clo->e.get();
                 forward++;
             }
             t=clo->t;
@@ -325,10 +325,10 @@ int run() {
             const idx size = T[t+1];
             t+=2;
             if (shortcircuit && read(t+size) == V) {
-                Cp clo = deref(T[t+size+1]);
+                C* clo = deref(T[t+size+1]);
                 push(s, C::newC(FORWARD, clo));
             } else {
-                push(s, C::newC(t+size, e));
+                push(s, C::newC(t+size, e.get()));
             }
             break;
         }
