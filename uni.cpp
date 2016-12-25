@@ -52,12 +52,24 @@ struct C {
     // free list;
     static C* freel;
 
+    //push l onto top of s
+    static void push(C*& top, C* const l) {
+        l->next = top;
+        top = l;
+    }
+
+    //pop the top element of s
+    static C* pop(C*& top) {
+        C* l = top;
+        top = top->next;
+        return l;
+    }
+
     static C* newC(idx at, C* const ae) {
         if (!freel) {
             freel = new C();
         }
-        C* l = freel;
-        freel = freel->next;
+        C* l = pop(freel);
         l->t = at;
         l->e = Cp(ae);
         return l;
@@ -70,8 +82,7 @@ struct C {
     void release() {
         r--;
         if (r == 0) {
-            next = freel;
-            freel = this;
+            push(freel, this);
         }
     }
 };
@@ -134,7 +145,7 @@ idx t = 10;
 Cp e;
 
 //s points to closure on the top of the stack
-Cp s;
+C* s;
 
 //number of steps executed
 idx steps = 0;
@@ -166,13 +177,13 @@ void w(char o) {
     fflush(stdout);
 }
 
-//push l onto top
+//push l onto top of e
 void push(Cp& top, C* const l) {
     l->n = top;
     top = Cp(l);
 }
 
-//pop the top element
+//pop the top element of e
 Cp pop(Cp& top) {
     Cp l = top;
     top = top->n;
@@ -207,7 +218,7 @@ idx p(const idx m) {
 void showL(C* h, const char *name) {
     log("%s ", name);
     while (h) {
-        log("(t:%lu, r:%ld, e:%p, a:%p) ", h->t, h->r, h->e.get(), h);
+        log("(t:%lu, r:%d, e:%p, a:%p) ", h->t, h->r, h->e.get(), h);
         h = h->n.get();
     }
     log("\n");
@@ -272,7 +283,7 @@ int run() {
     char o = '\0';
     while(1) {
         steps++;
-        logp(showL(s.get(), "S"));
+        logp(showL(s, "S"));
         logp(showL(e.get(), "E"));
         logp(showI(t));
         switch(read(t)) {
@@ -313,7 +324,7 @@ int run() {
                     clo->t = FORWARD;
                     clo->e = s->e;
                 } else {
-                    push(s, C::newC(MARKER, clo));
+                    C::push(s, C::newC(MARKER, clo));
                 }
             }
 
@@ -327,18 +338,20 @@ int run() {
             t+=2;
             if (shortcircuit && read(t+size) == V) {
                 C* clo = deref(T[t+size+1]);
-                push(s, C::newC(FORWARD, clo));
+                C::push(s, C::newC(FORWARD, clo));
             } else {
-                push(s, C::newC(t+size, e.get()));
+                C::push(s, C::newC(t+size, e.get()));
             }
             break;
         }
         case L: {
             //pop marker from the stack and update clo
             while (lazy && s && s->t == MARKER) {
-                C* clo = pop(s)->e.get();
+                C* m = C::pop(s);
+                C* clo = m->e.get();
                 clo->t = t;
                 clo->e = e;
+                delete m;
                 marker++;
             }
 
@@ -346,7 +359,7 @@ int run() {
             if (!s) {
                 return 0;
             }
-            push(e, pop(s).get());
+            push(e, C::pop(s));
             t++;
             break;
         }}
