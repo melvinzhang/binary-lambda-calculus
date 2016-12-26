@@ -9,7 +9,20 @@ G = nx.Graph()
 
 fig = plt.gcf()
 
-def hierarchy_pos(G, root, width=1., vert_gap = 0.2, vert_loc = 0, xcenter = 0.5, pos = None, parent = None):
+def hierarchy_width(G, root, parent = None, width = None):
+    neighbors = G.neighbors(root)
+    if parent != None:
+        neighbors.remove(parent)
+    total = 0.
+    for neighbor in neighbors:
+        total += hierarchy_width(G, neighbor, parent = root, width = width)
+    if total < 1:
+        total = 1.
+    width[root] = total
+    return width[root]
+
+
+def hierarchy_pos(G, root, width=1., vert_gap = 0.2, vert_loc = 0, xcenter = 0.5, pos = None, parent = None, twidth = None):
     '''If there is a cycle that is reachable from root, then this will see infinite recursion.
        G: the graph
        root: the root node of current branch
@@ -27,20 +40,31 @@ def hierarchy_pos(G, root, width=1., vert_gap = 0.2, vert_loc = 0, xcenter = 0.5
     if parent != None:
         neighbors.remove(parent)
     if len(neighbors)!=0:
-        dx = width/len(neighbors) 
-        nextx = xcenter - width/2 - dx/2
+        nextx = xcenter - width/2
         for neighbor in neighbors:
-            nextx += dx
-            pos = hierarchy_pos(G,neighbor, width = dx, vert_gap = vert_gap, 
-                                vert_loc = vert_loc-vert_gap, xcenter=nextx, pos=pos, 
-                                parent = root)
+            dx = (width * twidth[neighbor])/twidth[root]
+            nextx += dx/2
+            pos = hierarchy_pos(G,neighbor, width = dx, vert_gap = vert_gap,
+                                vert_loc = vert_loc-vert_gap, xcenter=nextx, pos=pos,
+                                parent = root, twidth = twidth)
+            nextx += dx/2
     return pos
+
+def hierarchy_layout(G, root):
+    twidth = {}
+    hierarchy_width(G, root, parent = None, width = twidth)
+    return hierarchy_pos(G, root, twidth = twidth)
 
 # Animation funciton
 def animate(i):
     fig.clf()
-    G.add_edge(*edges[i])
-    nx.draw(G, pos=hierarchy_pos(G,'n0'))
+    n1, n2 = edges[i]
+    if n1 == "free":
+        print("free")
+        G.remove_node(n2)
+    else:
+        G.add_edge(n1,n2)
+    nx.draw(G, pos=hierarchy_layout(G,'n0'))
     print(i)
 
 edges = []
@@ -49,5 +73,5 @@ for line in sys.stdin:
     edges.append((tokens[0], tokens[2]))
 
 # Animator call
-anim = animation.FuncAnimation(fig, animate, range(len(edges)), interval=50, blit=False, repeat=False)
+anim = animation.FuncAnimation(fig, animate, range(len(edges)), interval=10, blit=False, repeat=False)
 plt.show()
