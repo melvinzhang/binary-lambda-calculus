@@ -294,6 +294,7 @@ int run() {
         case OB:
             w(o);
             t = 12;
+            e = nullptr;
             break;
         case O0:
             if (b) {
@@ -302,6 +303,7 @@ int run() {
                 w('0');
             }
             t = 28;
+            e = nullptr;
             break;
         case O1:
             if (b) {
@@ -310,6 +312,7 @@ int run() {
                 w('1');
             }
             t = 28;
+            e = nullptr;
             break;
         case V: {
             //resolve v to an closure clo and continue execution
