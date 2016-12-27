@@ -82,6 +82,7 @@ struct C {
     void release() {
         r--;
         if (r == 0) {
+            log("EA free n%x\n", this);
             push(freel, this);
         }
     }
@@ -181,6 +182,7 @@ void w(char o) {
 void push(Cp& top, C* const l) {
     l->n = top;
     top = Cp(l);
+    log("EA n%x n%x\n", top->n.get(), top.get());
 }
 
 //parses blc-encoded lambda term using g(), stores results in term space and returns length
