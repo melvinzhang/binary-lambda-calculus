@@ -60,17 +60,16 @@ def animate(i):
     fig.clf()
     n1, n2 = edges[i]
     if n1 == "free":
-        print("free")
         G.remove_node(n2)
     else:
         G.add_edge(n1,n2)
     nx.draw(G, pos=hierarchy_layout(G,'n0'), node_size=100)
-    print(i)
 
 edges = []
 for line in sys.stdin:
-    tokens = line.split()
-    edges.append((tokens[0], tokens[2]))
+    if line.startswith("EA"):
+        tokens = line.split()
+        edges.append((tokens[1], tokens[2]))
 
 # Animator call
 anim = animation.FuncAnimation(fig, animate, range(len(edges)), interval=10, blit=False, repeat=False)
