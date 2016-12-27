@@ -210,7 +210,16 @@ idx p(const idx m) {
     return T.size()-m;
 }
 
-void showL(C* h, const char *name) {
+void showS(C* h, const char *name) {
+    log("%s ", name);
+    while (h) {
+        log("(t:%lu, r:%d, e:%p, a:%p) ", h->t, h->r, h->e.get(), h);
+        h = h->next;
+    }
+    log("\n");
+}
+
+void showE(C* h, const char *name) {
     log("%s ", name);
     while (h) {
         log("(t:%lu, r:%d, e:%p, a:%p) ", h->t, h->r, h->e.get(), h);
@@ -278,8 +287,8 @@ int run() {
     char o = '\0';
     while(1) {
         steps++;
-        logp(showL(s, "S"));
-        logp(showL(e.get(), "E"));
+        logp(showS(s, "S"));
+        logp(showE(e.get(), "E"));
         logp(showI(t));
         switch(read(t)) {
         case OB:
