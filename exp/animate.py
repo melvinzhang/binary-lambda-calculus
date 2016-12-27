@@ -64,7 +64,7 @@ def animate(i):
         G.remove_node(n2)
     else:
         G.add_edge(n1,n2)
-    nx.draw(G, pos=hierarchy_layout(G,'n0'))
+    nx.draw(G, pos=hierarchy_layout(G,'n0'), node_size=100)
     print(i)
 
 edges = []
