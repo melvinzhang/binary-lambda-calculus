@@ -349,6 +349,8 @@ int run() {
             if (shortcircuit && read(t+size) == V) {
                 C* clo = deref(T[t+size+1]);
                 C::push(s, C::newC(FORWARD, clo));
+            } else if (read(t+size) == K) {
+                C::push(s, C::newC(t+size, nullptr));
             } else {
                 C::push(s, C::newC(t+size, e.get()));
             }
@@ -370,7 +372,7 @@ int run() {
             if (!s) {
                 return 0;
             }
-            //closed terms do not reference their environment except for the operand
+            //closed terms do not reference their environment beyond their operand
             if (T[t] == K) {
                 e = nullptr;
             }
