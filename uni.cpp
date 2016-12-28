@@ -3,6 +3,7 @@
 #include <getopt.h>
 #include <vector>
 #include <memory>
+#include <algorithm>
 #include "IntrusiveRefCntPtr.h"
 
 #ifdef LOG
@@ -212,6 +213,30 @@ idx p(const idx m) {
     return T.size()-m;
 }
 
+//mark closed terms in program with K
+idx markClosed(const idx m) {
+    switch (T[m]) {
+        case A: {
+            return std::max(markClosed(m+2), markClosed(m+2+T[m+1]));
+        }
+        case V: {
+            return T[m+1];
+        }
+        case L: {
+            auto max = markClosed(m+1);
+            if (max == 0) {
+                T[m] = K;
+                return 0;
+            } else {
+                return max - 1;
+            }
+        }
+        default: {
+            return 0;
+        }
+    }
+}
+
 void showS(C* h, const char *name) {
     log("%s ", name);
     while (h) {
@@ -389,6 +414,8 @@ void load() {
     T[43] = p(T.size());
     // clear bits left
     left=0;
+    // mark closed terms in the program
+    markClosed(44);
 }
 };
 
