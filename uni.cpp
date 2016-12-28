@@ -25,7 +25,9 @@ enum {
     // denotes application with next entry the size of the term being applied
     A,
     // denotes lambda abstraction
-    L
+    L,
+    // denotes lambda abstraction for a closed term (combinator)
+    K
 };
 
 enum {
@@ -120,15 +122,15 @@ std::vector<idx> T = {
 // encoded   : 10E
 // byte input: \1\0
 // encoded   : S00000001E S00000000E E
-                 L,A,8,A,2,  V,0,L,L,V,
+                 K,A,8,A,2,  V,0,K,L,V,
 //10 - start here for byte mode
 //V    12 - jump here after output a byte
 //     V
-  A,30,L,A,2,V,0,L,A,5,A,7,L,V,0,OB,
+  A,30,K,A,2,V,0,K,A,5,A,7,K,V,0,OB,
 //26 - start here for bit mode
 //V    28 - jump here after output a bit
 //     V
-  A,14,L,A,2,V,0,L,A,5,A,2,  V,0,O0,O1,A
+  A,14,K,A,2,V,0,K,A,5,A,2,  V,0,O0,O1,A
 };
 
 // byte mode term
@@ -237,6 +239,7 @@ idx showI(idx j) {
         case V: log("V %lu\n", T[j+1]); j++; break;
         case A: log("A %lu\n", T[j+1]); j++; break;
         case L: log("L\n"); break;
+        case K: log("K\n"); break;
     }
     j++;
     return j;
@@ -351,7 +354,8 @@ int run() {
             }
             break;
         }
-        case L: {
+        case L:
+        case K: {
             //pop marker from the stack and update clo
             while (lazy && s && s->t == MARKER) {
                 C* m = C::pop(s);
@@ -365,6 +369,10 @@ int run() {
             //pop closure from stack and make it top level environment
             if (!s) {
                 return 0;
+            }
+            //closed terms do not reference their environment except for the operand
+            if (T[t] == K) {
+                e = nullptr;
             }
             push(e, C::pop(s));
             t++;
