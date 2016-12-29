@@ -57,20 +57,23 @@ def hierarchy_layout(G, root):
 
 # Animation funciton
 def animate(i):
+    line = sys.stdin.readline()
+    while not line == "" and not line.startswith("EA"):
+        if line.startswith("P"):
+            print line.split()[1]
+        line = sys.stdin.readline()
+    if line == "":
+        sys.exit()
+    tokens = line.split()
+    n1 = tokens[1]
+    n2 = tokens[2]
     fig.clf()
-    n1, n2 = edges[i]
     if n1 == "free":
         G.remove_node(n2)
     else:
         G.add_edge(n1,n2)
     nx.draw(G, pos=hierarchy_layout(G,'n0'), node_size=100)
 
-edges = []
-for line in sys.stdin:
-    if line.startswith("EA"):
-        tokens = line.split()
-        edges.append((tokens[1], tokens[2]))
-
 # Animator call
-anim = animation.FuncAnimation(fig, animate, range(len(edges)), interval=10, blit=False, repeat=False)
+anim = animation.FuncAnimation(fig, animate, frames=None, interval=10, blit=False, repeat=False)
 plt.show()
