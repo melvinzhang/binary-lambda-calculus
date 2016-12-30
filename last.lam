@@ -1,0 +1,5 @@
+#define Nil (\a \b b)
+#define Y (\f ((\x x x) (\x f (x x))))
+#define Last (\last \x \xs \acc xs last x)
+
+\s (\z z (s (Y Last) s) Nil) 
