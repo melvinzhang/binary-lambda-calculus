@@ -307,6 +307,10 @@ C* deref(idx index) {
     C* clo = e.get();
     for(idx j=index; j--; clo=clo->n.get());
     lookup += index + 1;
+    while (clo->t == FORWARD) {
+        clo = clo->e.get();
+        forward++;
+    }
     return clo;
 }
 
@@ -346,16 +350,6 @@ int run() {
             //resolve v to an closure clo and continue execution
             //with t = clo->t and e = clo->e
             C* clo = deref(T[t+1]);
-            if (collapse || shortcircuit) {
-                C* start = clo;
-                while (clo->t == FORWARD) {
-                    clo = clo->e.get();
-                    forward++;
-                }
-                if (start->t == FORWARD && start->e.get() != clo) {
-                    start->e = clo;
-                }
-            }
             t=clo->t;
             e=clo->e;
 
