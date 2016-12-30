@@ -10,6 +10,7 @@ The objective of this project is to understand [John Tromp's 2012 IOCCC entry](h
 * Refactor and understand the following programs:
     * [reverse](reverse.lam)
     * [inflate](inflate.lam)
+    * [quine](quine.lam)
 
 [1]: http://www.cs.indiana.edu/pub/techreports/TR581.pdf
 
