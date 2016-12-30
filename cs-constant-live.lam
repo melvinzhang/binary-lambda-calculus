@@ -1,0 +1,4 @@
+#define Y (\f ((\x x x) (\x f (x x))))
+#define G (\z (\y ((\x x) (z y))))
+
+\s (Y G) (\x x) 
