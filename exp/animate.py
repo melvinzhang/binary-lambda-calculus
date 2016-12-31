@@ -68,7 +68,7 @@ def animate(i):
     n1 = tokens[1]
     n2 = tokens[2]
     fig.clf()
-    plt.text(0.5, 0.1, G.number_of_nodes())
+    plt.text(0.6, 0.0, G.number_of_nodes())
     if n1 == "free":
         G.remove_node(n2)
     else:
