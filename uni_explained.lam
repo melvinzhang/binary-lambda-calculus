@@ -1,0 +1,34 @@
+#define Y (\f ((\x x x) (\x f (x x))))
+#define O ((\x x x)(\x x x))
+#define env (\z z O)
+
+// E cont bits = cont (\free parsed) unparsed_bits
+
+// list = ⟨bit0, list1⟩ = \p p bit0 list1
+
+#define E (\e \cont \list list (\bit0 \list1 list1 (\bit1 bit0
+  // bit0 is true
+    // The following calls E recursively yielding parsed following expression.
+    (e (\exp1 bit1
+  // bit1 is true (00 - abstraction)
+      // The following creates a list of bindings in reverse order than it's abstractions - all applied to following expression.
+      // e.g. \a \b \c exp ⟨c, b, a⟩
+      (cont (\args \arg exp1 (\p p arg args)))
+  // bit1 is false (01 - application)
+      // The following parses next expression and creates a fork consisting of two expresions.
+      (e (\exp2 cont (\args (exp1 args) (exp2 args))))
+    ))
+  // bit0 is false
+    // The following makes a composition sequence of `false` values terminated with `true` value.
+    // e.g. \a a false false false true
+    // The number of `false` values is `n - 1`, where `n` is quantity of `1` in variable expression.
+    (bit1
+  // bit1 is true (10 - zero-terminated variable)
+      (cont (\args args bit1))
+  // bit1 is false (11 - not terminated variable)
+      // Recursively take a frame of two bits making one bit steps.
+      (\list2 e (\var cont (\args var (args bit1))) list1)
+    )
+  )))
+
+Y E env
