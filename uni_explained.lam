@@ -6,7 +6,10 @@
 
 // list = ⟨bit0, list1⟩ = \p p bit0 list1
 
-#define E (\e \cont \list list (\bit0 \list1 list1 (\bit1 bit0
+Y
+
+// definition of E
+(\e \cont \list list (\bit0 \list1 list1 (\bit1 bit0
   // bit0 is true
     // The following calls E recursively yielding parsed following expression.
     (e (\exp1 bit1
@@ -29,6 +32,6 @@
       // Recursively take a frame of two bits making one bit steps.
       (\list2 e (\var cont (\args var (args bit1))) list1)
     )
-  )))
+)))
 
-Y E env
+env
